@@ -1,0 +1,53 @@
+{
+  "name": "vue-bottom-sheet",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/vue-bottom-sheet.js",
+  "scripts": {
+    "build": "webpack --progress --hide-modules",
+    "dev": "webpack-dev-server --config ./webpack.example.config.js --inline --hot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webzlodimir/vue-bottom-sheet.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "component",
+    "bottom-sheet"
+  ],
+  "author": "webzlodimir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webzlodimir/vue-bottom-sheet/issues"
+  },
+  "homepage": "https://github.com/webzlodimir/vue-bottom-sheet#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.6.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env": "^4.0.0",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-vue": "^4.4.0",
+    "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.20.3",
+    "vue": "2.5.16",
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "2.5.16",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.3"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8"
+  }
+}
