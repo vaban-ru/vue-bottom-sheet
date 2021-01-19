@@ -61,7 +61,6 @@ export default {
         const panPosition =
           this.$refs.backdrop.clientHeight - this.cardHeight - evt.center.y;
         if (panPosition < 0) {
-          console.log(panPosition);
           this.cardPosition = `${panPosition}px`;
         }
       });
