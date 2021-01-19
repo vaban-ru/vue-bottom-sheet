@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     open() {
-      this.$refs.VueBottomSheet.open(true);
+      this.$refs.myBottomSheet.open(true);
     }
   }
 }
