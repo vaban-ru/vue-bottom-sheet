@@ -1,8 +1,8 @@
 # Vue Bottom Sheet
 
-A swipeable material's bottom sheet implementation
+Компонент выезжающей снизу панели material-like, так же поддерживает жест смахивания вниз
 
-## Installation
+## Установка
 
 ### NPM
 
@@ -12,7 +12,7 @@ A swipeable material's bottom sheet implementation
 
 `yarn add @webzlodimir/vue-bottom-sheet`
 
-## Usage
+## Использование
 
 ```vue
 <template>
@@ -26,7 +26,7 @@ A swipeable material's bottom sheet implementation
 </template>
 
 <script>
-import { VueBottomSheet } from "@webzlodimir/vue-bottom-sheet";
+import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 
 export default {
   components: {
@@ -39,4 +39,12 @@ export default {
   }
 }
 </script>
+```
+
+Либо для использования по всему проекту добавить в main.js
+```js
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import Vue from "vue";
+
+Vue.use(VueBottomSheet);
 ```
