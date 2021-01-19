@@ -1,6 +1,6 @@
 {
-  "name": "vue-bottom-sheet",
-  "version": "0.0.1",
+  "name": "@webzlodimir/vue-bottom-sheet",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
