@@ -14,6 +14,7 @@
     ></div>
     <div
       :style="{ bottom: cardPosition }"
+      :class="{ 'bottom-sheet__card--stripe': hasStripe }"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
@@ -43,14 +44,22 @@ export default {
       mc: null,
       cardPosition: null,
       cardHeight: null,
-      moving: false
+      moving: false,
+      hasStripe: 0
     };
   },
   mounted() {
     this.$nextTick(() => {
+      // Проверка для отступа на айфонах без кнопки
+      let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
+      let aspect = window.screen.width / window.screen.height;
+      if (iPhone && aspect.toFixed(3) === "0.462") {
+        this.hasStripe = 20
+      }
+
       this.cardHeight = this.$refs.bottomSheetCard.clientHeight;
       this.contentHeight = `${this.cardHeight - this.$refs.pan.clientHeight}px`;
-      this.cardPosition = `-${this.cardHeight}px`;
+      this.cardPosition = `-${this.cardHeight + this.hasStripe}px`;
 
       this.mc = new Hammer(this.$refs.pan);
       this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
@@ -70,15 +79,17 @@ export default {
           this.$refs.backdrop.clientHeight - this.cardHeight - evt.center.y;
         if (panPosition < -30) {
           this.opened = false;
-          this.cardPosition = `-${this.cardHeight}px`;
+          this.cardPosition = `-${this.cardHeight + this.hasStripe}px`;
         }
       });
+
+
     });
   },
   methods: {
     open(isOpen) {
       this.opened = isOpen;
-      this.cardPosition = isOpen ? 0 : `-${this.cardHeight}px`;
+      this.cardPosition = isOpen ? 0 : `-${this.cardHeight + this.hasStripe}px`;
     }
   },
   beforeDestroy () {
@@ -117,6 +128,10 @@ export default {
     transition: bottom 0.3s ease;
     max-width: 640px;
     margin: 0 auto;
+
+    &--stripe {
+      padding-bottom: 20px;
+    }
   }
   &__pan {
     padding-bottom: 20px;
@@ -125,7 +140,7 @@ export default {
   }
   &__bar {
     display: block;
-    width: 50%;
+    width: 50px;
     height: 3px;
     border-radius: 14px;
     margin: 0 auto;
