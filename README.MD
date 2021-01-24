@@ -39,7 +39,10 @@ export default {
   },
   methods: {
     open() {
-      this.$refs.myBottomSheet.open(true);
+      this.$refs.myBottomSheet.open();
+    },
+    close() {
+      this.$refs.myBottomSheet.close();
     }
   }
 }
@@ -53,3 +56,7 @@ import Vue from "vue";
 
 Vue.use(VueBottomSheet);
 ```
+
+## Настройки
+
+`:overlay="false"` - убирает затемнение за компонентом

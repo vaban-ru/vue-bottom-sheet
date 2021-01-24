@@ -1,20 +1,17 @@
 <template>
   <div
     :class="{
-      'opened': opened,
-      'closed': opened === false,
-      'moving': moving
+      opened: opened,
+      closed: opened === false,
+      moving: moving
     }"
+    @click="close"
     class="bottom-sheet"
   >
-    <div
-      ref="backdrop"
-      @click="open(false)"
-      class="bottom-sheet__backdrop"
-    ></div>
+    <div v-if="overlay" ref="backdrop" class="bottom-sheet__backdrop"></div>
     <div
       :style="{ bottom: cardP }"
-      :class="{ 'stripe': stripe }"
+      :class="{ stripe: stripe }"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
@@ -25,7 +22,7 @@
         :style="{ height: contentH }"
         ref="bottomSheetCardContent"
         class="bottom-sheet__content"
-        @click="open(false)"
+        @click="close"
       >
         <slot />
       </div>
@@ -35,6 +32,7 @@
 
 <script>
 import Hammer from "hammerjs";
+
 export default {
   name: "VueBottomSheet",
   data() {
@@ -48,52 +46,56 @@ export default {
       stripe: 0
     };
   },
+  props: {
+    overlay: {
+      type: Boolean,
+      default: true
+    }
+  },
   mounted() {
-    this.$nextTick(() => {
-      // Проверка для отступа на айфонах без кнопки
-      let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
-      let aspect = window.screen.width / window.screen.height;
-      if (iPhone && aspect.toFixed(3) === "0.462") {
-        this.stripe = 20
+    let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
+    let aspect = window.screen.width / window.screen.height;
+    if (iPhone && aspect.toFixed(3) === "0.462") {
+      this.stripe = 20;
+    }
+
+    this.cardH = this.$refs.bottomSheetCard.clientHeight;
+    this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
+    this.cardP = `-${this.cardH + this.stripe}px`;
+
+    this.mc = new Hammer(this.$refs.pan);
+    this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
+    this.mc.on("panstart", () => {
+      this.moving = true;
+    });
+    this.mc.on("panup pandown", evt => {
+      const panPosition =
+        this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
+      if (panPosition < 0) {
+        this.cardP = `${panPosition}px`;
       }
-
-      this.cardH = this.$refs.bottomSheetCard.clientHeight;
-      this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
-      this.cardP = `-${this.cardH + this.stripe}px`;
-
-      this.mc = new Hammer(this.$refs.pan);
-      this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
-      this.mc.on("panstart", () => {
-        this.moving = true;
-      });
-      this.mc.on("panup pandown", evt => {
-        const panPosition =
-          this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
-        if (panPosition < 0) {
-          this.cardP = `${panPosition}px`;
-        }
-      });
-      this.mc.on("panend", evt => {
-        this.moving = false;
-        const panP =
-          this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
-        if (panP < -30) {
-          this.opened = false;
-          this.cardP = `-${this.cardH + this.stripe}px`;
-        }
-      });
-
-
+    });
+    this.mc.on("panend", evt => {
+      this.moving = false;
+      const panP = this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
+      if (panP < -30) {
+        this.opened = false;
+        this.cardP = `-${this.cardH + this.stripe}px`;
+      }
     });
   },
   methods: {
-    open(isOpen) {
-      this.opened = isOpen;
-      this.cardP = isOpen ? 0 : `-${this.cardH + this.stripe}px`;
+    open() {
+      this.opened = true;
+      this.cardP = 0;
+    },
+    close() {
+      this.opened = false;
+      this.cardP = `-${this.cardH + this.stripe}px`;
     }
   },
-  beforeDestroy () {
-    this.mc.destroy()
+  beforeDestroy() {
+    this.mc.destroy();
   }
 };
 </script>
@@ -101,9 +103,11 @@ export default {
 <style lang="scss" scoped>
 .bottom-sheet {
   z-index: 99999;
+
   &__content {
     overflow-y: scroll;
   }
+
   &__backdrop {
     position: fixed;
     top: 0;
@@ -115,6 +119,7 @@ export default {
     opacity: 0;
     visibility: hidden;
   }
+
   &__card {
     box-sizing: border-box;
     width: 100%;
@@ -133,11 +138,13 @@ export default {
       padding-bottom: 20px;
     }
   }
+
   &__pan {
     padding-bottom: 20px;
     padding-top: 15px;
     height: 38px;
   }
+
   &__bar {
     display: block;
     width: 50px;
@@ -147,20 +154,25 @@ export default {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.3);
   }
+
   &.closed {
     .bottom-sheet__backdrop {
       animation: hide 0.3s ease;
     }
   }
+
   &.moving {
     .bottom-sheet__card {
       transition: none;
     }
   }
+
   &.opened {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
 
     .bottom-sheet__backdrop {
       animation: show 0.3s ease;

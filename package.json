@@ -1,6 +1,6 @@
 {
   "name": "@webzlodimir/vue-bottom-sheet",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.4.0",
+    "eslint-plugin-vue": "^4.7.1",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
@@ -57,6 +57,9 @@
     "webpack-dev-server": "^3.1.3"
   },
   "dependencies": {
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "hammerjs": "^2.0.8"
   }
 }
