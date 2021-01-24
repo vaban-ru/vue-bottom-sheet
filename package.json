@@ -1,6 +1,6 @@
 {
   "name": "@webzlodimir/vue-bottom-sheet",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
@@ -24,7 +24,14 @@
     "url": "https://github.com/webzlodimir/vue-bottom-sheet/issues"
   },
   "homepage": "https://github.com/webzlodimir/vue-bottom-sheet#readme",
+  "size-limit": [
+    {
+      "path": "dist/vue-bottom-sheet.js",
+      "limit": "11 KB"
+    }
+  ],
   "devDependencies": {
+    "@size-limit/preset-app": "^4.9.1",
     "autoprefixer": "^9.6.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -39,7 +46,9 @@
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
+    "size-limit": "^4.9.1",
     "style-loader": "^0.20.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "2.5.16",
     "vue-loader": "^14.2.2",
     "vue-template-compiler": "2.5.16",

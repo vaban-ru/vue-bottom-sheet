@@ -1,9 +1,9 @@
 <template>
   <div
     :class="{
-      'bottom-sheet--opened': opened,
-      'bottom-sheet--closed': opened === false,
-      'bottom-sheet--moving': moving
+      'opened': opened,
+      'closed': opened === false,
+      'moving': moving
     }"
     class="bottom-sheet"
   >
@@ -13,8 +13,8 @@
       class="bottom-sheet__backdrop"
     ></div>
     <div
-      :style="{ bottom: cardPosition }"
-      :class="{ 'bottom-sheet__card--stripe': hasStripe }"
+      :style="{ bottom: cardP }"
+      :class="{ 'stripe': stripe }"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
@@ -22,7 +22,7 @@
         <div class="bottom-sheet__bar" ref="bar"></div>
       </div>
       <div
-        :style="{ height: contentHeight }"
+        :style="{ height: contentH }"
         ref="bottomSheetCardContent"
         class="bottom-sheet__content"
         @click="open(false)"
@@ -40,12 +40,12 @@ export default {
   data() {
     return {
       opened: null,
-      contentHeight: "auto",
+      contentH: "auto",
       mc: null,
-      cardPosition: null,
-      cardHeight: null,
+      cardP: null,
+      cardH: null,
       moving: false,
-      hasStripe: 0
+      stripe: 0
     };
   },
   mounted() {
@@ -54,12 +54,12 @@ export default {
       let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
       let aspect = window.screen.width / window.screen.height;
       if (iPhone && aspect.toFixed(3) === "0.462") {
-        this.hasStripe = 20
+        this.stripe = 20
       }
 
-      this.cardHeight = this.$refs.bottomSheetCard.clientHeight;
-      this.contentHeight = `${this.cardHeight - this.$refs.pan.clientHeight}px`;
-      this.cardPosition = `-${this.cardHeight + this.hasStripe}px`;
+      this.cardH = this.$refs.bottomSheetCard.clientHeight;
+      this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
+      this.cardP = `-${this.cardH + this.stripe}px`;
 
       this.mc = new Hammer(this.$refs.pan);
       this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
@@ -68,18 +68,18 @@ export default {
       });
       this.mc.on("panup pandown", evt => {
         const panPosition =
-          this.$refs.backdrop.clientHeight - this.cardHeight - evt.center.y;
+          this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
         if (panPosition < 0) {
-          this.cardPosition = `${panPosition}px`;
+          this.cardP = `${panPosition}px`;
         }
       });
       this.mc.on("panend", evt => {
         this.moving = false;
-        const panPosition =
-          this.$refs.backdrop.clientHeight - this.cardHeight - evt.center.y;
-        if (panPosition < -30) {
+        const panP =
+          this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
+        if (panP < -30) {
           this.opened = false;
-          this.cardPosition = `-${this.cardHeight + this.hasStripe}px`;
+          this.cardP = `-${this.cardH + this.stripe}px`;
         }
       });
 
@@ -89,7 +89,7 @@ export default {
   methods: {
     open(isOpen) {
       this.opened = isOpen;
-      this.cardPosition = isOpen ? 0 : `-${this.cardHeight + this.hasStripe}px`;
+      this.cardP = isOpen ? 0 : `-${this.cardH + this.stripe}px`;
     }
   },
   beforeDestroy () {
@@ -129,7 +129,7 @@ export default {
     max-width: 640px;
     margin: 0 auto;
 
-    &--stripe {
+    &.stripe {
       padding-bottom: 20px;
     }
   }
@@ -147,17 +147,17 @@ export default {
     cursor: pointer;
     background: rgba(0, 0, 0, 0.3);
   }
-  &--closed {
+  &.closed {
     .bottom-sheet__backdrop {
       animation: hide 0.3s ease;
     }
   }
-  &--moving {
+  &.moving {
     .bottom-sheet__card {
       transition: none;
     }
   }
-  &--opened {
+  &.opened {
     position: fixed;
     top: 0;
     left: 0;
