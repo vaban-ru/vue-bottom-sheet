@@ -1,17 +1,15 @@
-const {resolve} = require('path');
-const options = require('./webpack.config');
+const { resolve } = require("path");
+const options = require("./webpack.config");
 
-options.mode = 'development';
-options.entry = './example/';
+options.mode = "development";
+options.entry = "./demo/";
 
-options.output.filename = 'example.js';
-options.output.libraryTarget = 'var';
+options.output.filename = "demo.js";
+options.output.libraryTarget = "var";
 options.output.publicPath = "/dist";
 
 options.devServer = {
-  contentBase: [
-    resolve(__dirname, "example"),
-  ],
+  contentBase: [resolve(__dirname, "demo")],
   publicPath: "/dist"
 };
 
