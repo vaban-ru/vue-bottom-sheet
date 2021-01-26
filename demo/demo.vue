@@ -26,8 +26,14 @@
             >
           </div>
           <div class="form-group mb-3">
-            <label class="form-label">Max width:</label>
-            <input v-model="maxWidth" type="text" class="form-control" />
+            <label for="maxWidthInput" class="form-label">Max width:</label>
+            <input
+              name="maxWidthInput"
+              id="maxWidthInput"
+              v-model="maxWidth"
+              type="text"
+              class="form-control"
+            />
           </div>
         </div>
       </div>
