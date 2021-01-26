@@ -3,6 +3,8 @@
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 # Vue Bottom Sheet 
 
+[DEMO](https://webzlodimir.github.io/vue-bottom-sheet-demo/) 
+
 [Документация на русском](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README_RU.MD)
 
 A swipeable bottom sheet component for [Vue.js](https://vuejs.org/) created with [Hammer.js](https://hammerjs.github.io/)

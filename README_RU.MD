@@ -3,6 +3,11 @@
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 # Vue Bottom Sheet
 
+[ДЕМО](https://webzlodimir.github.io/vue-bottom-sheet-demo/)
+
+[Documentation in english](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README.MD)
+
+
 Компонент выезжающей снизу панели material-like, так же поддерживает жест смахивания вниз
 
 ![Пример работы компонента](https://anyprinter.ru/example.gif)
