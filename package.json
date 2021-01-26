@@ -5,6 +5,7 @@
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
     "build": "webpack --progress --hide-modules",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --inline --hot",
     "size": "size-limit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

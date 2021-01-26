@@ -1,5 +1,3 @@
 dist
 node_modules
 .idea
-demo
-webpack.dev.config.js
