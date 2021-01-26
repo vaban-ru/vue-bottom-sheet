@@ -1,15 +1,13 @@
 ![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
 ![Downloads](https://img.shields.io/npm/dw/@webzlodimir/vue-bottom-sheet)
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
-# Vue Bottom Sheet 
+# Vue Bottom Sheet
 
-[Документация на русском](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README_RU.MD)
+Компонент выезжающей снизу панели material-like, так же поддерживает жест смахивания вниз
 
-A swipeable bottom sheet component for [Vue.js](https://vuejs.org/) created with [Hammer.js](https://hammerjs.github.io/)
+![Пример работы компонента](https://anyprinter.ru/example.gif)
 
-![Example](https://anyprinter.ru/example.gif)
-
-## Installation
+## Установка
 
 ### NPM
 
@@ -19,7 +17,7 @@ A swipeable bottom sheet component for [Vue.js](https://vuejs.org/) created with
 
 `yarn add @webzlodimir/vue-bottom-sheet`
 
-## Usage
+## Использование
 
 ```vue
 <template>
@@ -51,7 +49,7 @@ export default {
 </script>
 ```
 
-Or add to main.js for use throughout the project
+Либо для использования по всему проекту добавить в main.js
 ```js
 import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import Vue from "vue";
@@ -59,6 +57,6 @@ import Vue from "vue";
 Vue.use(VueBottomSheet);
 ```
 
-## Props
+## Настройки
 
-`:overlay="false"` - remove back overlay
+`:overlay="false"` - убирает затемнение за компонентом

@@ -1,11 +1,12 @@
 {
   "name": "@webzlodimir/vue-bottom-sheet",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
     "build": "webpack --progress --hide-modules",
     "dev": "webpack-dev-server --config webpack.dev.config.js --inline --hot",
+    "size": "size-limit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -54,12 +55,12 @@
     "vue-template-compiler": "2.5.16",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.3"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.1.3",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^3.3.1"
+  },
+  "dependencies": {
     "hammerjs": "^2.0.8"
   }
 }
