@@ -63,6 +63,7 @@ Vue.use(VueBottomSheet);
 
 ## Props
 
-`:overlay="false"` - remove back overlay
-
-`:max-width="640"` - set max-width of component card
+| Prop  | Type | Description |
+| ------------- | ------------- | ------------- |
+| overlay  | Boolean  | Remove back overlay  |
+| max-width  | Number  | Set max-width of component card  |
