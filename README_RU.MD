@@ -1,5 +1,5 @@
 ![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
-![Downloads](https://img.shields.io/npm/dw/@webzlodimir/vue-bottom-sheet)
+![Downloads](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 # Vue Bottom Sheet
 
