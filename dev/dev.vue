@@ -12,7 +12,7 @@
       <h3 class="mb-3">Settings</h3>
 
       <div class="row">
-        <div class="col-4">
+        <div class="col-sm-4 col-12">
           <div class="form-check form-switch mb-3">
             <input
               class="form-check-input"
@@ -23,6 +23,18 @@
             />
             <label class="form-check-label" for="flexSwitchCheckChecked"
               >Overlay</label
+            >
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="closeSwitchCheckChecked"
+              v-model="clickToClose"
+              checked
+            />
+            <label class="form-check-label" for="closeSwitchCheckChecked"
+              >Click outside card to close</label
             >
           </div>
           <div class="form-group mb-3">
@@ -36,7 +48,7 @@
             />
           </div>
           <div class="form-group mb-3">
-            <label for="maxWidthInput" class="form-label">Max height:</label>
+            <label for="maxHeightInput" class="form-label">Max height:</label>
             <input
               name="maxHeightInput"
               id="maxHeightInput"
@@ -54,6 +66,7 @@
         :max-width="maxWidth"
         :max-height="maxHeight"
         :overlay="overlay"
+        :click-to-close="clickToClose"
         ref="myBottomSheet"
       >
         <div class="sheet-content">
@@ -90,7 +103,8 @@ export default {
     return {
       overlay: true,
       maxWidth: "640px",
-      maxHeight: "90%"
+      maxHeight: "90%",
+      clickToClose: true
     };
   },
   components: {

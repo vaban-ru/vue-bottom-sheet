@@ -5,25 +5,24 @@
       closed: opened === false,
       moving: moving
     }"
-    @click="close"
+    @click="clickOnBottomSheet"
     class="bottom-sheet"
     ref="bottomSheet"
   >
-    <div v-if="overlay" ref="backdrop" class="bottom-sheet__backdrop"></div>
+    <div v-if="overlay" class="bottom-sheet__backdrop"></div>
     <div
-      :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight:maxHeight }"
+      :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
       :class="{ stripe: stripe }"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
       <div class="bottom-sheet__pan" ref="pan">
-        <div class="bottom-sheet__bar" ref="bar"></div>
+        <div class="bottom-sheet__bar"></div>
       </div>
       <div
         :style="{ height: contentH }"
         ref="bottomSheetCardContent"
         class="bottom-sheet__content"
-        @click="close"
       >
         <slot />
       </div>
@@ -60,9 +59,9 @@ export default {
       type: String,
       default: "95%"
     },
-    animation: {
-      type: String,
-      default: "slide"
+    clickToClose: {
+      type: Boolean,
+      default: true
     }
   },
   mounted() {
@@ -83,7 +82,7 @@ export default {
     });
     this.mc.on("panup pandown", evt => {
       const panPosition =
-        this.$refs.backdrop.clientHeight - this.cardH - evt.center.y;
+        this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
       if (panPosition < 0) {
         this.cardP = `${panPosition}px`;
       }
@@ -106,6 +105,17 @@ export default {
     close() {
       this.opened = false;
       this.cardP = `-${this.cardH + this.stripe}px`;
+    },
+    clickOnBottomSheet(event) {
+      const clickedBlock = event.target;
+      if (this.clickToClose) {
+        if (
+          clickedBlock.classList.contains("bottom-sheet__backdrop") ||
+          clickedBlock.classList.contains("bottom-sheet")
+        ) {
+          this.close();
+        }
+      }
     }
   },
   beforeDestroy() {
