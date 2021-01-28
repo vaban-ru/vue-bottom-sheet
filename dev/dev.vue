@@ -35,6 +35,16 @@
               class="form-control"
             />
           </div>
+          <div class="form-group mb-3">
+            <label for="maxWidthInput" class="form-label">Max height:</label>
+            <input
+              name="maxHeightInput"
+              id="maxHeightInput"
+              v-model="maxHeight"
+              type="text"
+              class="form-control"
+            />
+          </div>
         </div>
       </div>
       <button class="btn btn-primary" type="button" @click="open">
@@ -42,6 +52,7 @@
       </button>
       <vue-bottom-sheet
         :max-width="maxWidth"
+        :max-height="maxHeight"
         :overlay="overlay"
         ref="myBottomSheet"
       >
@@ -78,7 +89,8 @@ export default {
   data() {
     return {
       overlay: true,
-      maxWidth: 640
+      maxWidth: "640px",
+      maxHeight: "90%"
     };
   },
   components: {

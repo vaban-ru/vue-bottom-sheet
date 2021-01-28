@@ -11,7 +11,7 @@
   >
     <div v-if="overlay" ref="backdrop" class="bottom-sheet__backdrop"></div>
     <div
-      :style="{ bottom: cardP, maxWidth: `${maxWidth}px` }"
+      :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight:maxHeight }"
       :class="{ stripe: stripe }"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
@@ -53,8 +53,16 @@ export default {
       default: true
     },
     maxWidth: {
-      type: Number,
-      default: 640
+      type: String,
+      default: "640px"
+    },
+    maxHeight: {
+      type: String,
+      default: "95%"
+    },
+    animation: {
+      type: String,
+      default: "slide"
     }
   },
   mounted() {
@@ -82,7 +90,8 @@ export default {
     });
     this.mc.on("panend", evt => {
       this.moving = false;
-      const panP = this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
+      const panP =
+        this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
       if (panP < -30) {
         this.opened = false;
         this.cardP = `-${this.cardH + this.stripe}px`;
@@ -134,7 +143,6 @@ export default {
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 9999;
-    max-height: 95%;
     transition: bottom 0.3s ease;
     margin: 0 auto;
 

@@ -1,13 +1,14 @@
+# Vue Bottom Sheet 
+
+A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [Hammer.js](https://hammerjs.github.io/)
+
 ![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
 ![Downloads](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
-# Vue Bottom Sheet 
 
 [DEMO](https://webzlodimir.github.io/vue-bottom-sheet-demo/) 
 
 [Документация на русском](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README_RU.MD)
-
-A swipeable bottom sheet component for [Vue.js](https://vuejs.org/) created with [Hammer.js](https://hammerjs.github.io/)
 
 ![Example](https://anyprinter.ru/example.gif)
 
@@ -63,7 +64,8 @@ Vue.use(VueBottomSheet);
 
 ## Props
 
-| Prop  | Type | Description |
-| ------------- | ------------- | ------------- |
-| overlay  | Boolean  | Remove back overlay  |
-| max-width  | Number  | Set max-width of component card  |
+| Prop  | Type | Description | Example |
+| ------------- | ------------- | ------------- | ------------- |
+| overlay  | Boolean  | Remove back overlay  | `:overlay="false"` |
+| max-width  | String  | Set max-width of component card  | `max-width="640px"` |
+| max-height  | String  | Set max-height of component card  | `max-height="90%"` |

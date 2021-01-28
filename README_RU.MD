@@ -1,14 +1,14 @@
-![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
-![Downloads](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
-![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 # Vue Bottom Sheet
+
+Компонент выезжающей снизу панели material-like, так же поддерживает жест смахивания вниз
+
+![Размер](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
+![Загрузки](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
+![Версия](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 
 [ДЕМО](https://webzlodimir.github.io/vue-bottom-sheet-demo/)
 
 [Documentation in english](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README.MD)
-
-
-Компонент выезжающей снизу панели material-like, так же поддерживает жест смахивания вниз
 
 ![Пример работы компонента](https://anyprinter.ru/example.gif)
 
@@ -64,7 +64,8 @@ Vue.use(VueBottomSheet);
 
 ## Настройки
 
-| Свойство  | Тип | Описание |
-| ------------- | ------------- | ------------- |
-| overlay  | Boolean  | Убирает затемнение за компонентом  |
-| max-width  | Number  | Устанавливает максимальную ширину карточки компонента  |
+| Свойство  | Тип | Описание | Пример |
+| ------------- | ------------- | ------------- | ------------- |
+| overlay  | Boolean  | Убирает затемнение  | `:overlay="false"` |
+| max-width  | String  | Устанавливает максимальную ширину карточки компонента  | `max-width="640px"` |
+| max-height  | String  | Устанавливает максимальную высоту карточки компонента  | `max-height="90%"` |
