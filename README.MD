@@ -10,7 +10,7 @@ A nice clean and touch-friendly bottom sheet component based on [Vue.js](https:/
 
 [Документация на русском](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README_RU.MD)
 
-![Example](https://anyprinter.ru/example.gif)
+![Example](https://anyprinter.ru/example.gif?v=1.1.1)
 
 ## Installation
 
