@@ -57,6 +57,24 @@
               class="form-control"
             />
           </div>
+          <div class="form-group mb-3">
+            <label for="effectSelect" class="form-label">Effects:</label>
+            <select
+              v-model="effect"
+              class="form-select"
+              name="effectSelect"
+              id="effectSelect"
+            >
+              <option selected value="fx-default">fx-default</option>
+              <option selected value="fx-fadein-scale">fx-fadein-scale</option>
+              <option selected value="fx-slide-from-right"
+                >fx-slide-from-right</option
+              >
+              <option selected value="fx-slide-from-left"
+                >fx-slide-from-left</option
+              >
+            </select>
+          </div>
         </div>
       </div>
       <button class="btn btn-primary" type="button" @click="open">
@@ -67,6 +85,7 @@
         :max-height="maxHeight"
         :overlay="overlay"
         :click-to-close="clickToClose"
+        :effect="effect"
         ref="myBottomSheet"
       >
         <div class="sheet-content">
@@ -104,7 +123,8 @@ export default {
       overlay: true,
       maxWidth: "640px",
       maxHeight: "90%",
-      clickToClose: true
+      clickToClose: true,
+      effect: "fx-default"
     };
   },
   components: {

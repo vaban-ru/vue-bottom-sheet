@@ -70,3 +70,13 @@ Vue.use(VueBottomSheet);
 | click-to-close  | Boolean  | Клик вне карточки закрывает компонент  | `:click-to-close="false"` |
 | max-width  | String  | Устанавливает максимальную ширину карточки компонента  | `max-width="640px"` |
 | max-height  | String  | Устанавливает максимальную высоту карточки компонента  | `max-height="90%"` |
+| effect  | String  | Устанавливает эффект появление карточки компонента  | `effect="fx-fadein-scale"` |
+
+### Список эффектов
+
+- fx-default
+- fx-fadein-scale
+- fx-slide-from-right
+- fx-slide-from-left
+
+Вы можете посмотреть все эффекты на [демо странице](https://webzlodimir.github.io/vue-bottom-sheet-demo/)

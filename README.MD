@@ -70,3 +70,13 @@ Vue.use(VueBottomSheet);
 | click-to-close  | Boolean  | Click outside card to close  | `:click-to-close="false"` |
 | max-width  | String  | Set max-width of component card  | `max-width="640px"` |
 | max-height  | String  | Set max-height of component card  | `max-height="90%"` |
+| effect  | String  | Set effect for component card  | `effect="fx-fadein-scale"` |
+
+### List of effects
+
+- fx-default
+- fx-fadein-scale
+- fx-slide-from-right
+- fx-slide-from-left
+
+You can see all the effects on the [demo page](https://webzlodimir.github.io/vue-bottom-sheet-demo/)

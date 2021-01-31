@@ -12,7 +12,7 @@
     <div v-if="overlay" class="bottom-sheet__backdrop"></div>
     <div
       :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
-      :class="{ stripe: stripe }"
+      :class="[{ stripe: stripe }, effect]"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
@@ -62,6 +62,10 @@ export default {
     clickToClose: {
       type: Boolean,
       default: true
+    },
+    effect: {
+      type: String,
+      default: "fx-slide-from-left"
     }
   },
   mounted() {
@@ -73,7 +77,11 @@ export default {
 
     this.cardH = this.$refs.bottomSheetCard.clientHeight;
     this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
-    this.cardP = `-${this.cardH + this.stripe}px`;
+    this.cardP =
+      this.effect === "fx-slide-from-right" ||
+      this.effect === "fx-slide-from-left"
+        ? 0
+        : `-${this.cardH + this.stripe}px`;
 
     this.mc = new Hammer(this.$refs.pan);
     this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
@@ -104,7 +112,11 @@ export default {
     },
     close() {
       this.opened = false;
-      this.cardP = `-${this.cardH + this.stripe}px`;
+      this.cardP =
+        this.effect === "fx-slide-from-right" ||
+        this.effect === "fx-slide-from-left"
+          ? 0
+          : `-${this.cardH + this.stripe}px`;
     },
     clickOnBottomSheet(event) {
       const clickedBlock = event.target;
@@ -127,6 +139,7 @@ export default {
 <style lang="scss" scoped>
 .bottom-sheet {
   z-index: 99999;
+  transition: all 0.4s ease;
 
   &__content {
     overflow-y: scroll;
@@ -151,13 +164,34 @@ export default {
     background: white;
     border-radius: 14px 14px 0 0;
     left: 50%;
-    transform: translate(-50%, 0);
     z-index: 9999;
-    transition: bottom 0.3s ease;
     margin: 0 auto;
 
     &.stripe {
       padding-bottom: 20px;
+    }
+
+    &.fx-default {
+      transform: translate(-50%, 0);
+      transition: bottom 0.3s ease;
+    }
+
+    &.fx-fadein-scale {
+      transform: translate(-50%, 0) scale(0.7);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    &.fx-slide-from-right {
+      transform: translate(100%, 0);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    }
+
+    &.fx-slide-from-left {
+      transform: translate(-100%, 0);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
     }
   }
 
@@ -178,6 +212,8 @@ export default {
   }
 
   &.closed {
+    opacity: 0;
+    visibility: hidden;
     .bottom-sheet__backdrop {
       animation: hide 0.3s ease;
     }
@@ -200,6 +236,21 @@ export default {
       animation: show 0.3s ease;
       opacity: 1;
       visibility: visible;
+    }
+
+    .bottom-sheet__card {
+      &.fx-fadein-scale {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+      }
+      &.fx-slide-from-right {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+      &.fx-slide-from-left {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
     }
   }
 }
