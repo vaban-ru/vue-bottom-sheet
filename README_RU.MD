@@ -10,8 +10,6 @@
 
 [Documentation in english](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README.MD)
 
-![Пример работы компонента](https://anyprinter.ru/example.gif?v=1.1.1)
-
 ## Установка
 
 ### NPM
