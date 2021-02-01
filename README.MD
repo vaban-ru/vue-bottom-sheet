@@ -7,8 +7,7 @@
 
 A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [Hammer.js](https://hammerjs.github.io/)
 
- - :clapper: [Demo](https://webzlodimir.github.io/vue-bottom-sheet-demo/) 
-
+ - :clapper: [Demo](https://webzlodimir.github.io/vue-bottom-sheet-demo/)
  - :open_book: [Документация на русском](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README_RU.MD)
 
 ## Installation
