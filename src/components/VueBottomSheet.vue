@@ -5,7 +5,7 @@
       closed: opened === false,
       moving: moving
     }"
-    @click="clickOnBottomSheet"
+    v-on="handlers"
     class="bottom-sheet"
     ref="bottomSheet"
   >
@@ -36,6 +36,7 @@ import Hammer from "hammerjs";
 export default {
   name: "VueBottomSheet",
   data() {
+    const vm = this;
     return {
       opened: null,
       contentH: "auto",
@@ -43,7 +44,11 @@ export default {
       cardP: null,
       cardH: null,
       moving: false,
-      stripe: 0
+      stripe: 0,
+      handlers: {
+        mousedown: vm.clickOnBottomSheet,
+        touchstart: vm.clickOnBottomSheet
+      }
     };
   },
   props: {
@@ -84,7 +89,7 @@ export default {
         : `-${this.cardH + this.stripe}px`;
 
     this.mc = new Hammer(this.$refs.pan);
-    this.mc.get("pan").set({ direction: Hammer.DIRECTION_ALL });
+    this.mc.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
     this.mc.on("panstart", () => {
       this.moving = true;
     });

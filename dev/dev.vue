@@ -5,9 +5,7 @@
         Vue Bottom Sheet
       </h1>
       <p>
-        A swipeable bottom sheet component for
-        <a target="_blank" href="https://vuejs.org/">Vue.js</a> created with
-        <a target="_blank" href="https://hammerjs.github.io/">Hammer.js</a>
+        A nice clean and touch-friendly bottom sheet component based on <a target="_blank" href="https://vuejs.org/">Vue.js</a> and <a target="_blank" href="https://hammerjs.github.io/">Hammer.js</a>
       </p>
       <h3 class="mb-3">Settings</h3>
 
