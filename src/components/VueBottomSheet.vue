@@ -38,7 +38,7 @@ export default {
   data() {
     const vm = this;
     return {
-      opened: null,
+      opened: false,
       contentH: "auto",
       mc: null,
       cardP: null,
@@ -70,50 +70,63 @@ export default {
     },
     effect: {
       type: String,
-      default: "fx-slide-from-left"
+      default: "fx-default"
     }
   },
   mounted() {
-    let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
-    let aspect = window.screen.width / window.screen.height;
-    if (iPhone && aspect.toFixed(3) === "0.462") {
-      this.stripe = 20;
-    }
-
-    this.cardH = this.$refs.bottomSheetCard.clientHeight;
-    this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
-    this.cardP =
-      this.effect === "fx-slide-from-right" ||
-      this.effect === "fx-slide-from-left"
-        ? 0
-        : `-${this.cardH + this.stripe}px`;
-
-    this.mc = new Hammer(this.$refs.pan);
-    this.mc.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
-    this.mc.on("panstart", () => {
-      this.moving = true;
-    });
-    this.mc.on("panup pandown", evt => {
-      const panPosition =
-        this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
-      if (panPosition < 0) {
-        this.cardP = `${panPosition}px`;
-      }
-    });
-    this.mc.on("panend", evt => {
-      this.moving = false;
-      const panP =
-        this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
-      if (panP < -30) {
-        this.opened = false;
-        this.cardP = `-${this.cardH + this.stripe}px`;
-      }
-    });
+    this.init();
   },
   methods: {
+    isIphone() {
+      let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
+      let aspect = window.screen.width / window.screen.height;
+      return iPhone && aspect.toFixed(3) === "0.462";
+    },
+    init() {
+      return new Promise(resolve => {
+        this.contentH = "auto";
+        setTimeout(() => {
+          this.stripe = this.isIphone() ? 20 : 0;
+          this.cardH = this.$refs.bottomSheetCard.clientHeight;
+          this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
+          this.$refs.bottomSheetCard.style.maxHeight = this.maxHeight;
+          this.cardP =
+            this.effect === "fx-slide-from-right" ||
+            this.effect === "fx-slide-from-left"
+              ? 0
+              : `-${this.cardH + this.stripe}px`;
+
+          this.mc = new Hammer(this.$refs.pan);
+          this.mc.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
+          this.mc.on("panstart", () => {
+            this.moving = true;
+          });
+          this.mc.on("panup pandown", evt => {
+            const panPosition =
+              this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
+            console.log(panPosition);
+            if (panPosition < 0) {
+              this.cardP = `${panPosition}px`;
+            }
+          });
+          this.mc.on("panend", evt => {
+            this.moving = false;
+            const panP =
+              this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
+            if (panP < -30) {
+              this.opened = false;
+              this.cardP = `-${this.cardH + this.stripe}px`;
+            }
+          });
+          resolve();
+        }, 10);
+      });
+    },
     open() {
-      this.opened = true;
-      this.cardP = 0;
+      this.init().then(() => {
+        this.opened = true;
+        this.cardP = 0;
+      });
     },
     close() {
       this.opened = false;
