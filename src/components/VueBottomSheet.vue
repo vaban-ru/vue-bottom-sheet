@@ -115,6 +115,7 @@ export default {
             if (panP < -30) {
               this.opened = false;
               this.cardP = `-${this.cardH + this.stripe}px`;
+              document.querySelector("body").style.overflow = "";
             }
           });
           resolve();
