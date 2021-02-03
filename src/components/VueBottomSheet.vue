@@ -104,7 +104,6 @@ export default {
           this.mc.on("panup pandown", evt => {
             const panPosition =
               this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
-            console.log(panPosition);
             if (panPosition < 0) {
               this.cardP = `${panPosition}px`;
             }
@@ -126,6 +125,7 @@ export default {
       this.init().then(() => {
         this.opened = true;
         this.cardP = 0;
+        document.querySelector("body").style.overflow = "hidden";
       });
     },
     close() {
@@ -135,6 +135,7 @@ export default {
         this.effect === "fx-slide-from-left"
           ? 0
           : `-${this.cardH + this.stripe}px`;
+      document.querySelector("body").style.overflow = "";
     },
     clickOnBottomSheet(event) {
       const clickedBlock = event.target;
@@ -158,6 +159,7 @@ export default {
 .bottom-sheet {
   z-index: 99999;
   transition: all 0.4s ease;
+  position: relative;
 
   &__content {
     overflow-y: scroll;
