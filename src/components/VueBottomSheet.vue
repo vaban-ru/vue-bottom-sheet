@@ -101,7 +101,7 @@ export default {
           this.mc.on("panstart", () => {
             this.moving = true;
           });
-          this.mc.on("panup pandown", evt => {
+          this.mc.on("pandown", evt => {
             const panPosition =
               this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
             if (panPosition < 0) {
@@ -116,6 +116,11 @@ export default {
               this.opened = false;
               this.cardP = `-${this.cardH + this.stripe}px`;
               document.querySelector("body").style.overflow = "";
+              if (evt.isFinal) {
+                console.log("closed");
+              }
+              this.mc.off("panend");
+              this.$emit("closed");
             }
           });
           resolve();
@@ -127,6 +132,7 @@ export default {
         this.opened = true;
         this.cardP = 0;
         document.querySelector("body").style.overflow = "hidden";
+        this.$emit("opened");
       });
     },
     close() {
@@ -137,6 +143,7 @@ export default {
           ? 0
           : `-${this.cardH + this.stripe}px`;
       document.querySelector("body").style.overflow = "";
+      this.$emit("closed");
     },
     clickOnBottomSheet(event) {
       const clickedBlock = event.target;

@@ -70,6 +70,13 @@ Vue.use(VueBottomSheet);
 | max-height  | String  | Set max-height of component card  | `max-height="90%"` |
 | effect  | String  | Set effect for component card  | `effect="fx-fadein-scale"` |
 
+## Events
+
+| Event  | Description | Example |
+| ------------- | ------------- | ------------- |
+| opened  | Fire when card component is opened  | @opened="" |
+| closed  | Fire when card component is closed  | @closed="" |
+
 ### List of effects
 
 - fx-default
