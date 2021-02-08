@@ -5,7 +5,9 @@
         Vue Bottom Sheet
       </h1>
       <p>
-        A nice clean and touch-friendly bottom sheet component based on <a target="_blank" href="https://vuejs.org/">Vue.js</a> and <a target="_blank" href="https://hammerjs.github.io/">Hammer.js</a>
+        A nice clean and touch-friendly bottom sheet component based on
+        <a target="_blank" href="https://vuejs.org/">Vue.js</a> and
+        <a target="_blank" href="https://hammerjs.github.io/">Hammer.js</a>
       </p>
       <h3 class="mb-3">Settings</h3>
 
@@ -33,6 +35,18 @@
             />
             <label class="form-check-label" for="closeSwitchCheckChecked"
               >Click outside card to close</label
+            >
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="roundedCheckChecked"
+              v-model="rounded"
+              checked
+            />
+            <label class="form-check-label" for="roundedCheckChecked"
+              >Rounded top corners</label
             >
           </div>
           <div class="form-group mb-3">
@@ -84,6 +98,7 @@
         :overlay="overlay"
         :click-to-close="clickToClose"
         :effect="effect"
+        :rounded="rounded"
         ref="myBottomSheet"
       >
         <div class="sheet-content">
@@ -122,7 +137,8 @@ export default {
       maxWidth: "640px",
       maxHeight: "90%",
       clickToClose: true,
-      effect: "fx-default"
+      effect: "fx-default",
+      rounded: true
     };
   },
   components: {

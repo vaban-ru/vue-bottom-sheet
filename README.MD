@@ -69,6 +69,7 @@ Vue.use(VueBottomSheet);
 | max-width  | String  | Set max-width of component card  | `max-width="640px"` |
 | max-height  | String  | Set max-height of component card  | `max-height="90%"` |
 | effect  | String  | Set effect for component card  | `effect="fx-fadein-scale"` |
+| rounded  | Boolean  | Round the top two corners of the sheet  | `:rounded="false"` |
 
 ## Events
 

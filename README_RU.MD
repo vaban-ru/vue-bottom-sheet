@@ -68,6 +68,7 @@ Vue.use(VueBottomSheet);
 | max-width  | String  | Устанавливает максимальную ширину карточки компонента  | `max-width="640px"` |
 | max-height  | String  | Устанавливает максимальную высоту карточки компонента  | `max-height="90%"` |
 | effect  | String  | Устанавливает эффект появление карточки компонента  | `effect="fx-fadein-scale"` |
+| rounded  | Boolean  | Включает скругление 2 верхних углов компонента  | `:rounded="false"` |
 
 ## События
 

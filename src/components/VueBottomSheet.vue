@@ -12,7 +12,7 @@
     <div v-if="overlay" class="bottom-sheet__backdrop"></div>
     <div
       :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
-      :class="[{ stripe: stripe }, effect]"
+      :class="[{ stripe: stripe, square: !rounded }, effect]"
       ref="bottomSheetCard"
       class="bottom-sheet__card"
     >
@@ -71,6 +71,10 @@ export default {
     effect: {
       type: String,
       default: "fx-default"
+    },
+    rounded: {
+      type: Boolean,
+      default: true
     }
   },
   mounted() {
@@ -116,9 +120,6 @@ export default {
               this.opened = false;
               this.cardP = `-${this.cardH + this.stripe}px`;
               document.querySelector("body").style.overflow = "";
-              if (evt.isFinal) {
-                console.log("closed");
-              }
               this.mc.off("panend");
               this.$emit("closed");
             }
@@ -194,6 +195,10 @@ export default {
     left: 50%;
     z-index: 9999;
     margin: 0 auto;
+
+    &.square {
+      border-radius: 0;
+    }
 
     &.stripe {
       padding-bottom: 20px;
