@@ -1,23 +1,28 @@
 <template>
   <div
-    :class="{
-      opened: opened,
-      closed: opened === false,
-      moving: moving
-    }"
+    :class="[
+      'bottom-sheet',
+      {
+        opened: opened,
+        closed: opened === false,
+        moving: moving
+      }
+    ]"
     v-on="handlers"
-    class="bottom-sheet"
     ref="bottomSheet"
   >
-    <div v-if="overlay" class="bottom-sheet__backdrop"></div>
+    <div v-if="overlay" class="bottom-sheet__backdrop" />
     <div
       :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
-      :class="[{ stripe: stripe, square: !rounded }, effect]"
+      :class="[
+        'bottom-sheet__card',
+        { stripe: stripe, square: !rounded },
+        effect
+      ]"
       ref="bottomSheetCard"
-      class="bottom-sheet__card"
     >
       <div class="bottom-sheet__pan" ref="pan">
-        <div class="bottom-sheet__bar"></div>
+        <div class="bottom-sheet__bar" />
       </div>
       <div
         :style="{ height: contentH }"
@@ -101,11 +106,11 @@ export default {
               : `-${this.cardH + this.stripe}px`;
 
           this.mc = new Hammer(this.$refs.pan);
-          this.mc.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
+          this.mc.get("pan").set({ direction: Hammer.DIRECTION_VERTICAL });
           this.mc.on("panstart", () => {
             this.moving = true;
           });
-          this.mc.on("pandown", evt => {
+          this.mc.on("pandown panup", evt => {
             const panPosition =
               this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
             if (panPosition < 0) {
@@ -119,7 +124,7 @@ export default {
             if (panP < -30) {
               this.opened = false;
               this.cardP = `-${this.cardH + this.stripe}px`;
-              document.querySelector("body").style.overflow = "";
+              document.body.style.overflow = "";
               this.mc.off("panend");
               this.$emit("closed");
             }
@@ -132,7 +137,7 @@ export default {
       this.init().then(() => {
         this.opened = true;
         this.cardP = 0;
-        document.querySelector("body").style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
         this.$emit("opened");
       });
     },
@@ -143,15 +148,14 @@ export default {
         this.effect === "fx-slide-from-left"
           ? 0
           : `-${this.cardH + this.stripe}px`;
-      document.querySelector("body").style.overflow = "";
+      document.body.style.overflow = "";
       this.$emit("closed");
     },
     clickOnBottomSheet(event) {
-      const clickedBlock = event.target;
       if (this.clickToClose) {
         if (
-          clickedBlock.classList.contains("bottom-sheet__backdrop") ||
-          clickedBlock.classList.contains("bottom-sheet")
+          event.target.classList.contains("bottom-sheet__backdrop") ||
+          event.target.classList.contains("bottom-sheet")
         ) {
           this.close();
         }
@@ -170,6 +174,10 @@ export default {
   transition: all 0.4s ease;
   position: relative;
 
+  * {
+    box-sizing: border-box;
+  }
+
   &__content {
     overflow-y: scroll;
   }
@@ -187,7 +195,6 @@ export default {
   }
 
   &__card {
-    box-sizing: border-box;
     width: 100%;
     position: fixed;
     background: white;

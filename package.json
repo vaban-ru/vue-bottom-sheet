@@ -1,6 +1,6 @@
 {
   "name": "@webzlodimir/vue-bottom-sheet",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "",
   "main": "dist/vue-bottom-sheet.js",
   "scripts": {
@@ -33,8 +33,10 @@
   ],
   "devDependencies": {
     "@size-limit/preset-app": "^4.9.1",
+    "@vue/eslint-config-prettier": "^6.0.0",
     "autoprefixer": "^9.6.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -42,6 +44,7 @@
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^4.7.1",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
     "node-sass": "^4.12.0",
@@ -55,10 +58,7 @@
     "vue-template-compiler": "2.5.16",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.3",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint-plugin-prettier": "^3.3.1"
+    "webpack-dev-server": "^3.1.3"
   },
   "dependencies": {
     "hammerjs": "^2.0.8"
