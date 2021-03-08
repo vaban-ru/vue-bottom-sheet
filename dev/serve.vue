@@ -15,75 +15,75 @@
         <div class="col-sm-4 col-12">
           <div class="form-check form-switch mb-3">
             <input
-              class="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckChecked"
-              v-model="overlay"
-              checked
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckChecked"
+                v-model="overlay"
+                checked
             />
             <label class="form-check-label" for="flexSwitchCheckChecked"
-              >Overlay</label
+            >Overlay</label
             >
           </div>
           <div class="form-check form-switch mb-3">
             <input
-              class="form-check-input"
-              type="checkbox"
-              id="closeSwitchCheckChecked"
-              v-model="clickToClose"
-              checked
+                class="form-check-input"
+                type="checkbox"
+                id="closeSwitchCheckChecked"
+                v-model="clickToClose"
+                checked
             />
             <label class="form-check-label" for="closeSwitchCheckChecked"
-              >Click outside card to close</label
+            >Click outside card to close</label
             >
           </div>
           <div class="form-check form-switch mb-3">
             <input
-              class="form-check-input"
-              type="checkbox"
-              id="roundedCheckChecked"
-              v-model="rounded"
-              checked
+                class="form-check-input"
+                type="checkbox"
+                id="roundedCheckChecked"
+                v-model="rounded"
+                checked
             />
             <label class="form-check-label" for="roundedCheckChecked"
-              >Rounded top corners</label
+            >Rounded top corners</label
             >
           </div>
           <div class="form-group mb-3">
             <label for="maxWidthInput" class="form-label">Max width:</label>
             <input
-              name="maxWidthInput"
-              id="maxWidthInput"
-              v-model="maxWidth"
-              type="text"
-              class="form-control"
+                name="maxWidthInput"
+                id="maxWidthInput"
+                v-model="maxWidth"
+                type="text"
+                class="form-control"
             />
           </div>
           <div class="form-group mb-3">
             <label for="maxHeightInput" class="form-label">Max height:</label>
             <input
-              name="maxHeightInput"
-              id="maxHeightInput"
-              v-model="maxHeight"
-              type="text"
-              class="form-control"
+                name="maxHeightInput"
+                id="maxHeightInput"
+                v-model="maxHeight"
+                type="text"
+                class="form-control"
             />
           </div>
           <div class="form-group mb-3">
             <label for="effectSelect" class="form-label">Effects:</label>
             <select
-              v-model="effect"
-              class="form-select"
-              name="effectSelect"
-              id="effectSelect"
+                v-model="effect"
+                class="form-select"
+                name="effectSelect"
+                id="effectSelect"
             >
               <option selected value="fx-default">fx-default</option>
               <option selected value="fx-fadein-scale">fx-fadein-scale</option>
               <option selected value="fx-slide-from-right"
-                >fx-slide-from-right</option
+              >fx-slide-from-right</option
               >
               <option selected value="fx-slide-from-left"
-                >fx-slide-from-left</option
+              >fx-slide-from-left</option
               >
             </select>
           </div>
@@ -93,13 +93,13 @@
         Open bottom sheet
       </button>
       <vue-bottom-sheet
-        :max-width="maxWidth"
-        :max-height="maxHeight"
-        :overlay="overlay"
-        :click-to-close="clickToClose"
-        :effect="effect"
-        :rounded="rounded"
-        ref="myBottomSheet"
+          :max-width="maxWidth"
+          :max-height="maxHeight"
+          :overlay="overlay"
+          :click-to-close="clickToClose"
+          :effect="effect"
+          :rounded="rounded"
+          ref="myBottomSheet"
       >
         <div class="sheet-content">
           <h1>Lorem Ipsum</h1>
@@ -128,9 +128,11 @@
 </template>
 
 <script>
-import VueBottomSheet from "../src";
+import Vue from 'vue';
+import VueBottomSheet from '@/vue-bottom-sheet.vue';
 
-export default {
+export default Vue.extend({
+  name: 'ServeDev',
   data() {
     return {
       overlay: true,
@@ -152,10 +154,11 @@ export default {
       this.$refs.myBottomSheet.close();
     }
   }
-};
+});
 </script>
 
 <style>
+@import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css";
 .sheet-content {
   padding: 20px;
 }
