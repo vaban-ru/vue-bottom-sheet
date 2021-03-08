@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[
+      :class="[
       'bottom-sheet',
       {
         opened: opened,
@@ -8,26 +8,26 @@
         moving: moving
       }
     ]"
-    v-on="handlers"
-    ref="bottomSheet"
+      v-on="handlers"
+      ref="bottomSheet"
   >
     <div v-if="overlay" class="bottom-sheet__backdrop" />
     <div
-      :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
-      :class="[
+        :style="{ bottom: cardP, maxWidth: maxWidth, maxHeight: maxHeight }"
+        :class="[
         'bottom-sheet__card',
         { stripe: stripe, square: !rounded },
         effect
       ]"
-      ref="bottomSheetCard"
+        ref="bottomSheetCard"
     >
       <div class="bottom-sheet__pan" ref="pan">
         <div class="bottom-sheet__bar" />
       </div>
       <div
-        :style="{ height: contentH }"
-        ref="bottomSheetCardContent"
-        class="bottom-sheet__content"
+          :style="{ height: contentH }"
+          ref="bottomSheetCardContent"
+          class="bottom-sheet__content"
       >
         <slot />
       </div>
@@ -100,10 +100,10 @@ export default {
           this.contentH = `${this.cardH - this.$refs.pan.clientHeight}px`;
           this.$refs.bottomSheetCard.style.maxHeight = this.maxHeight;
           this.cardP =
-            this.effect === "fx-slide-from-right" ||
-            this.effect === "fx-slide-from-left"
-              ? 0
-              : `-${this.cardH + this.stripe}px`;
+              this.effect === "fx-slide-from-right" ||
+              this.effect === "fx-slide-from-left"
+                  ? 0
+                  : `-${this.cardH + this.stripe}px`;
 
           this.mc = new Hammer(this.$refs.pan);
           this.mc.get("pan").set({ direction: Hammer.DIRECTION_VERTICAL });
@@ -112,7 +112,7 @@ export default {
           });
           this.mc.on("pandown panup", evt => {
             const panPosition =
-              this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
+                this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
             if (panPosition < 0) {
               this.cardP = `${panPosition}px`;
             }
@@ -120,7 +120,7 @@ export default {
           this.mc.on("panend", evt => {
             this.moving = false;
             const panP =
-              this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
+                this.$refs.bottomSheet.clientHeight - this.cardH - evt.center.y;
             if (panP < -30) {
               this.opened = false;
               this.cardP = `-${this.cardH + this.stripe}px`;
@@ -144,18 +144,18 @@ export default {
     close() {
       this.opened = false;
       this.cardP =
-        this.effect === "fx-slide-from-right" ||
-        this.effect === "fx-slide-from-left"
-          ? 0
-          : `-${this.cardH + this.stripe}px`;
+          this.effect === "fx-slide-from-right" ||
+          this.effect === "fx-slide-from-left"
+              ? 0
+              : `-${this.cardH + this.stripe}px`;
       document.body.style.overflow = "";
       this.$emit("closed");
     },
     clickOnBottomSheet(event) {
       if (this.clickToClose) {
         if (
-          event.target.classList.contains("bottom-sheet__backdrop") ||
-          event.target.classList.contains("bottom-sheet")
+            event.target.classList.contains("bottom-sheet__backdrop") ||
+            event.target.classList.contains("bottom-sheet")
         ) {
           this.close();
         }
