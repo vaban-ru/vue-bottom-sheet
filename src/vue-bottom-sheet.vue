@@ -96,11 +96,11 @@ export default {
     move(event, type) {
       let delta = -event.deltaY;
       if (
-        (type == 'content' && event.type == 'panup') || 
-        (type == 'content' && event.type == 'pandown' && this.contentScroll > 0)
+        (type === 'content' && event.type === 'panup') ||
+        (type === 'content' && event.type === 'pandown' && this.contentScroll > 0)
       ) {
         this.$refs.bottomSheetCardContent.scrollTop = this.contentScroll + delta;
-      } else if (event.type == 'panup' || event.type == 'pandown') {
+      } else if (event.type === 'panup' || event.type === 'pandown') {
         this.moving = true;
         if (event.deltaY > 0) {
           this.cardP = delta;
@@ -133,7 +133,7 @@ export default {
                 : `-${this.cardH + this.stripe}px`;
         if (!this.inited) {
           this.inited = true;
-          var options = {
+          let options = {
             recognizers: [
               [Hammer.Pan,{ direction: Hammer.DIRECTION_VERTICAL }]
             ]
@@ -178,8 +178,8 @@ export default {
     }
   },
   beforeDestroy() {
-    this.hammer.pan.destroy();
-    this.hammer.content.destroy();
+    this.hammer?.pan?.destroy();
+    this.hammer?.content?.destroy();
   }
 };
 </script>
