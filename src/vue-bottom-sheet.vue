@@ -95,6 +95,9 @@ export default {
     },
     move(event, type) {
       let delta = -event.deltaY;
+      if (type === "content" && this.contentScroll === 0) {
+        type = "pan";
+      }
       if (
         (type === 'content' && event.type === 'panup') ||
         (type === 'content' && event.type === 'pandown' && this.contentScroll > 0)
