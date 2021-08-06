@@ -170,7 +170,6 @@ export default {
       });
     },
     open() {
-      console.log(this.effect)
       this.init().then(() => {
         this.opened = true;
         this.cardP = 0;
