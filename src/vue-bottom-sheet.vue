@@ -11,9 +11,9 @@
       v-on="handlers"
       ref="bottomSheet"
   >
-    <div v-if="overlay" class="bottom-sheet__backdrop" />
+    <div v-if="overlay" class="bottom-sheet__backdrop" :style="{ 'background': overlayColor }" />
     <div
-        :style="{ bottom: cardP+'px', maxWidth: maxWidth, maxHeight: maxHeight }"
+        :style="[{ bottom: cardP+'px', maxWidth: maxWidth, maxHeight: maxHeight },{'height':isFullScreen ? '100%' : 'auto'}]"
         :class="[
         'bottom-sheet__card',
         { stripe: stripe, square: !rounded },
@@ -22,14 +22,14 @@
         ref="bottomSheetCard"
     >
       <div class="bottom-sheet__pan" ref="pan">
-        <div class="bottom-sheet__bar" />
+        <div class="bottom-sheet__bar"/>
       </div>
       <div
           :style="{ height: contentH }"
           ref="bottomSheetCardContent"
           class="bottom-sheet__content"
       >
-        <slot />
+        <slot/>
       </div>
     </div>
   </div>
@@ -85,7 +85,19 @@ export default {
     rounded: {
       type: Boolean,
       default: true
-    }
+    },
+    swipeAble: {
+      type: Boolean,
+      default: true
+    },
+    isFullScreen: {
+      type: Boolean,
+      default: false
+    },
+    overlayColor: {
+      type: String,
+      default: "#0000004D"
+    },
   },
   methods: {
     isIphone() {
@@ -94,31 +106,30 @@ export default {
       return iPhone && aspect.toFixed(3) === "0.462";
     },
     move(event, type) {
-      let delta = -event.deltaY;
-      if (type === "content" && this.contentScroll === 0) {
-        type = "pan";
-      }
-      if (
-        (type === 'content' && event.type === 'panup') ||
-        (type === 'content' && event.type === 'pandown' && this.contentScroll > 0)
-      ) {
-        this.$refs.bottomSheetCardContent.scrollTop = this.contentScroll + delta;
-      } else if (event.type === 'panup' || event.type === 'pandown') {
-        this.moving = true;
-        if (event.deltaY > 0) {
-          this.cardP = delta;
+      if (this.swipeAble) {
+        let delta = -event.deltaY;
+        if (
+            (type === 'content' && event.type === 'panup') ||
+            (type === 'content' && event.type === 'pandown' && this.contentScroll > 0)
+        ) {
+          this.$refs.bottomSheetCardContent.scrollTop = this.contentScroll + delta;
+        } else if (event.type === 'panup' || event.type === 'pandown') {
+          this.moving = true;
+          if (event.deltaY > 0) {
+            this.cardP = delta;
+          }
         }
-      }
-      if (event.isFinal) {
-        this.contentScroll = this.$refs.bottomSheetCardContent.scrollTop;
-        this.moving = false;
-        if (this.cardP < -30) {
-          this.opened = false;
-          this.cardP = -this.cardH-this.stripe;
-          document.body.style.overflow = "";
-          this.$emit("closed");
-        } else {
-          this.cardP = 0;
+        if (event.isFinal) {
+          this.contentScroll = this.$refs.bottomSheetCardContent.scrollTop;
+          this.moving = false;
+          if (this.cardP < -30) {
+            this.opened = false;
+            this.cardP = -this.cardH - this.stripe;
+            document.body.style.overflow = "";
+            this.$emit("closed");
+          } else {
+            this.cardP = 0;
+          }
         }
       }
     },
@@ -138,17 +149,21 @@ export default {
           this.inited = true;
           let options = {
             recognizers: [
-              [Hammer.Pan,{ direction: Hammer.DIRECTION_VERTICAL }]
+              [Hammer.Pan, {direction: Hammer.DIRECTION_VERTICAL}]
             ]
           }
           this.hammer.pan = new Hammer(this.$refs.pan, options);
-          this.hammer.pan.on("panstart panup pandown panend", e => {this.move(e,'pan')})
+          this.hammer.pan.on("panstart panup pandown panend", e => {
+            this.move(e, 'pan')
+          })
           this.hammer.content = new Hammer(this.$refs.bottomSheetCardContent, options);
-          this.hammer.content.on("panstart panup pandown panend", e => {this.move(e,'content')})
+          this.hammer.content.on("panstart panup pandown panend", e => {
+            this.move(e, 'content')
+          })
         }
         setTimeout(() => {
           resolve();
-        },10);
+        }, 10);
       });
     },
     open() {
@@ -207,7 +222,6 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
     z-index: 9999;
     opacity: 0;
     visibility: hidden;
@@ -215,6 +229,7 @@ export default {
 
   &__card {
     width: 100%;
+
     position: fixed;
     background: white;
     border-radius: 14px 14px 0 0;
@@ -273,6 +288,7 @@ export default {
   &.closed {
     opacity: 0;
     visibility: hidden;
+
     .bottom-sheet__backdrop {
       animation: hide 0.3s ease;
     }
@@ -302,10 +318,12 @@ export default {
         transform: translate(-50%, 0) scale(1);
         opacity: 1;
       }
+
       &.fx-slide-from-right {
         transform: translate(-50%, 0);
         opacity: 1;
       }
+
       &.fx-slide-from-left {
         transform: translate(-50%, 0);
         opacity: 1;
