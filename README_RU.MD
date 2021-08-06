@@ -69,6 +69,9 @@ Vue.use(VueBottomSheet);
 | max-height  | String  | Устанавливает максимальную высоту карточки компонента  | `max-height="90%"` |
 | effect  | String  | Устанавливает эффект появление карточки компонента  | `effect="fx-fadein-scale"` |
 | rounded  | Boolean  | Включает скругление 2 верхних углов компонента  | `:rounded="false"` |
+| is-full-screen  | Boolean  | Включает и выключает полноэкранный режим  | `:is-full-screen="true"` |
+| swipe-able  | Boolean  | Включает и выключает возможность закрытия окна свайпом | `:swipe-able="false"` |
+| overlay-color  | Boolean  | Задаёт цвет оверлея | `:overlay-color="#0000004D"` |
 
 ## События
 
