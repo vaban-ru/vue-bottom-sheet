@@ -65,6 +65,7 @@
     "sass-loader": "^8.0.2",
     "size-limit": "^4.10.1",
     "vue": "^2.6.12",
+    "vue-color": "^2.8.1",
     "vue-template-compiler": "^2.6.12"
   },
   "peerDependencies": {
