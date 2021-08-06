@@ -10,9 +10,9 @@
         <a target="_blank" href="https://hammerjs.github.io/">Hammer.js</a>
       </p>
       <h3 class="mb-3">Settings</h3>
-
+      <hr style="opacity: 0.1">
       <div class="row">
-        <div class="col-sm-4 col-12">
+        <div class="col-md-4 col-12">
           <div class="form-check form-switch mb-3">
             <input
                 class="form-check-input"
@@ -49,6 +49,38 @@
             >Rounded top corners</label
             >
           </div>
+          <div class="form-check form-switch mb-3">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="swipeSwitchCheckChecked"
+                v-model="swipeAble"
+                checked
+            />
+            <label class="form-check-label" for="swipeSwitchCheckChecked"
+            >Swipe Able</label
+            >
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="fullscreenSwitchCheckChecked"
+                v-model="isFullScreen"
+            />
+            <label class="form-check-label" for="fullscreenSwitchCheckChecked"
+            >Full Screen</label
+            >
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="mb-3">
+            <h6> Overlay Color</h6>
+            <sketch-picker v-model="overlayColorSelect"/>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+
           <div class="form-group mb-3">
             <label for="maxWidthInput" class="form-label">Max width:</label>
             <input
@@ -80,10 +112,12 @@
               <option selected value="fx-default">fx-default</option>
               <option selected value="fx-fadein-scale">fx-fadein-scale</option>
               <option selected value="fx-slide-from-right"
-              >fx-slide-from-right</option
+              >fx-slide-from-right
+              </option
               >
               <option selected value="fx-slide-from-left"
-              >fx-slide-from-left</option
+              >fx-slide-from-left
+              </option
               >
             </select>
           </div>
@@ -99,6 +133,9 @@
           :click-to-close="clickToClose"
           :effect="effect"
           :rounded="rounded"
+          :swipeAble="swipeAble"
+          :overlayColor="overlyHexColor"
+          :isFullScreen="isFullScreen"
           ref="myBottomSheet"
       >
         <div class="sheet-content">
@@ -130,9 +167,11 @@
 <script>
 import Vue from 'vue';
 import VueBottomSheet from '@/vue-bottom-sheet.vue';
+import sketch from 'vue-color/src/components/Chrome'
 
 export default Vue.extend({
   name: 'ServeDev',
+
   data() {
     return {
       overlay: true,
@@ -140,11 +179,15 @@ export default Vue.extend({
       maxHeight: "90%",
       clickToClose: true,
       effect: "fx-default",
-      rounded: true
+      rounded: true,
+      swipeAble: true,
+      isFullScreen: false,
+      overlayColorSelect: "#0000004D"
     };
   },
   components: {
-    VueBottomSheet
+    VueBottomSheet,
+    'sketch-picker': sketch,
   },
   methods: {
     open() {
@@ -153,12 +196,19 @@ export default Vue.extend({
     close() {
       this.$refs.myBottomSheet.close();
     }
+  },
+  computed: {
+    overlyHexColor() {
+      if (this.overlayColorSelect != null)
+        return this.overlayColorSelect.hex8;
+    }
   }
 });
 </script>
 
 <style>
 @import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css";
+
 .sheet-content {
   padding: 20px;
 }
