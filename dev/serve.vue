@@ -72,6 +72,28 @@
             >Full Screen</label
             >
           </div>
+          <div class="form-check form-switch mb-3">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="srollableSwitchCheckChecked"
+                v-model="backgroundScrollable"
+            />
+            <label class="form-check-label" for="srollableSwitchCheckChecked"
+            >Background scrollable</label
+            >
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                id="clickableSwitchCheckChecked"
+                v-model="backgroundClickable"
+            />
+            <label class="form-check-label" for="clickableSwitchCheckChecked"
+            >Background clickable</label
+            >
+          </div>
         </div>
         <div class="col-md-4 col-12">
           <div class="mb-3">
@@ -136,6 +158,8 @@
           :swipeAble="swipeAble"
           :overlayColor="overlyHexColor"
           :isFullScreen="isFullScreen"
+          :backgroundScrollable="backgroundScrollable"
+          :backgroundClickable="backgroundClickable"
           ref="myBottomSheet"
       >
         <div class="sheet-content">
@@ -200,7 +224,9 @@ export default Vue.extend({
       rounded: true,
       swipeAble: true,
       isFullScreen: false,
-      overlayColorSelect: "#0000004D"
+      overlayColorSelect: "#0000004D",
+      backgroundScrollable: false,
+      backgroundClickable: false,
     };
   },
   components: {
