@@ -144,7 +144,7 @@ export default {
             this.effect === "fx-slide-from-right" ||
             this.effect === "fx-slide-from-left"
                 ? 0
-                : `-${this.cardH + this.stripe}px`;
+                : -this.cardH - this.stripe;
         if (!this.inited) {
           this.inited = true;
           let options = {
