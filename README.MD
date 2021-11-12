@@ -73,6 +73,8 @@ Vue.use(VueBottomSheet);
 | is-full-screen  | Boolean  | Enable or disable full-screen mode  | `:is-full-screen="true"` |
 | swipe-able  | Boolean  | Enable or disable swipe to close | `:swipe-able="false"` |
 | overlay-color  | Boolean  | Set overlay color with opacity | `:overlay-color="#0000004D"` |
+| background-scrollable  | Boolean  | Enable scroll | `:background-scrollable="true"` |
+| background-clickable  | Boolean  | Enable background click, doesn't work if `click-to-close=true` | `:background-clickable="true"` |
 
 ## Events
 

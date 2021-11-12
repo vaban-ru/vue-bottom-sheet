@@ -10,10 +10,11 @@
     ]"
       v-on="handlers"
       ref="bottomSheet"
+      :style="{ 'pointer-events': backgroundClickable && clickToClose == false ? 'none' : 'all' }"
   >
     <div v-if="overlay" class="bottom-sheet__backdrop" :style="{ 'background': overlayColor }" />
     <div
-        :style="[{ bottom: cardP+'px', maxWidth: maxWidth, maxHeight: maxHeight },{'height':isFullScreen ? '100%' : 'auto'}]"
+        :style="[{ bottom: cardP+'px', maxWidth: maxWidth, maxHeight: maxHeight },{'height':isFullScreen ? '100%' : 'auto'},{'pointer-events': 'all'}]"
         :class="[
         'bottom-sheet__card',
         { stripe: stripe, square: !rounded },
@@ -98,6 +99,14 @@ export default {
       type: String,
       default: "#0000004D"
     },
+    backgroundScrollable: {
+      type: Boolean,
+      default: false
+    },
+    backgroundClickable: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     isIphone() {
@@ -170,7 +179,11 @@ export default {
       this.init().then(() => {
         this.opened = true;
         this.cardP = 0;
-        document.body.style.overflow = "hidden";
+
+        if (!this.$props.backgroundScrollable) {
+          document.body.style.overflow = "hidden";
+        }
+        
         this.$emit("opened");
       });
     },
