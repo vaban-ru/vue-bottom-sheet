@@ -6,8 +6,8 @@
 ![Загрузки](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
 ![Версия](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 
-- :clapper: [ДЕМО](https://webzlodimir.github.io/vue-bottom-sheet-demo/)
-- :open_book: [Documentation in english](https://github.com/webzlodimir/vue-bottom-sheet/blob/master/README.MD)
+- :clapper: [ДЕМО](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
+- :open_book: [Documentation in english](https://github.com/vaban-ru/vue-bottom-sheet/blob/master/README.MD)
 
 ## Установка
 
