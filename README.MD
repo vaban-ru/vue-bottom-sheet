@@ -90,4 +90,4 @@ Vue.use(VueBottomSheet);
 - fx-slide-from-right
 - fx-slide-from-left
 
-You can see all the effects on the [demo page](https://webzlodimir.github.io/vue-bottom-sheet-demo/)
+You can see all the effects on the [demo page](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
