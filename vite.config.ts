@@ -16,7 +16,7 @@ module.exports = defineConfig(() => {
     build: {
       lib: {
         entry: path.resolve(__dirname, "src/index.ts"),
-        name: "VLodja",
+        name: "VueBottomSheet",
       },
       rollupOptions: {
         // external modules won't be bundled into your library
