@@ -1,3 +1,14 @@
-dist
 node_modules
-.idea
+demo/node_modules
+demo/.vscode
+.DS_Store
+dist
+dist-ssr
+*.local
+docs/.vuepress/.cache
+docs/.vuepress/.temp
+docs/.vitepress/dist
+types
+yarn-error.log
+.npmrc
+.env
