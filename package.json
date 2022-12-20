@@ -42,5 +42,21 @@
       "require": "./dist/vue-bottom-sheet.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaban-ru/vue-bottom-sheet.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "component",
+    "bottom-sheet"
+  ],
+  "author": "vaban-ru",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vaban-ru/vue-bottom-sheet/issues"
+  },
+  "homepage": "https://github.com/vaban-ru/vue-bottom-sheet#readme",
 }
