@@ -91,6 +91,10 @@ export default {
       type: Boolean,
       default: true
     },
+    contentSwipeAble: {
+      type: Boolean,
+      default: true
+    },
     isFullScreen: {
       type: Boolean,
       default: false
@@ -165,10 +169,12 @@ export default {
           this.hammer.pan.on("panstart panup pandown panend", e => {
             this.move(e, 'pan')
           })
-          this.hammer.content = new Hammer(this.$refs.bottomSheetCardContent, options);
-          this.hammer.content.on("panstart panup pandown panend", e => {
-            this.move(e, 'content')
-          })
+          if(this.contentSwipeAble) {
+            this.hammer.content = new Hammer(this.$refs.bottomSheetCardContent, options);
+            this.hammer.content.on("panstart panup pandown panend", e => {
+              this.move(e, 'content')
+            })
+          }
         }
         setTimeout(() => {
           resolve();
