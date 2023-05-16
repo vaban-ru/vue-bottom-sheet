@@ -1,6 +1,6 @@
 {
   "name": "@antonosipov/vue-bottom-sheet",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "private": false,
   "scripts": {
     "build": "rimraf dist && vue-tsc && vite build",

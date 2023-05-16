@@ -49,6 +49,8 @@
 <script setup lang="ts">
 import Hammer from "@squadette/hammerjs";
 import { nextTick, onBeforeUnmount, ref, onMounted } from "vue";
+import scrollTools from "@/scrollTools";
+
 export interface IProps {
   overlay?: boolean;
   maxWidth?: string;
@@ -153,7 +155,7 @@ const open = () => {
   opened.value = true;
   cardP.value = 0;
   if (!props.backgroundScrollable) {
-    document.documentElement.style.overflowY = "hidden";
+    scrollTools.enable();
   }
   emit("opened");
 };
@@ -178,7 +180,7 @@ const move = (event: IEvent, type: string) => {
       if (cardP.value < -30) {
         opened.value = false;
         cardP.value = -cardH - stripe;
-        document.documentElement.style.overflowY = "";
+        scrollTools.disable();
         emit("closed");
       } else {
         cardP.value = 0;
