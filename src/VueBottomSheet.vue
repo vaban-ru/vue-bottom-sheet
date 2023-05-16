@@ -47,9 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import Hammer from "hammerjs";
-import { nextTick, onBeforeUnmount, ref } from "vue";
-
+import Hammer from "@squadette/hammerjs";
+import { nextTick, onBeforeUnmount, ref, onMounted } from "vue";
 export interface IProps {
   overlay?: boolean;
   maxWidth?: string;
@@ -119,7 +118,6 @@ const isIphone = () => {
 };
 
 const init = async () => {
-  await nextTick();
   contentH.value = "auto";
   stripe = isIphone() ? 20 : 0;
   cardH = bottomSheetCard.value.clientHeight;
@@ -140,12 +138,13 @@ const init = async () => {
         move(e, "pan");
       });
     }
-    hammer.content = new Hammer(bottomSheetCardContent.value, options);
-    if (hammer.content) {
-      hammer.content.on("panstart panup pandown panend", (e: IEvent) => {
-        move(e, "content");
-      });
-    }
+    // hammer.content = new Hammer(bottomSheetCardContent.value, options);
+    // if (hammer.content) {
+    //   hammer.content.on("panstart panup pandown panend", (e: IEvent) => {
+    //     console.log(e);
+    //     move(e, "content");
+    //   });
+    // }
     inited = true;
   }
 };
@@ -213,7 +212,9 @@ const clickOnBottomSheet = (event: Event) => {
 
 defineExpose({ open, close });
 
-init();
+onMounted(() => {
+  init();
+});
 </script>
 
 <style lang="scss">

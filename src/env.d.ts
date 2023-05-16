@@ -7,4 +7,4 @@ declare module "*.vue" {
   export default component;
 }
 
-declare module "hammerjs";
+declare module "@squadette/hammerjs";

@@ -151,7 +151,7 @@
       :rounded="rounded"
       :swipeAble="swipeAble"
       :isFullScreen="isFullScreen"
-      :backgroundScrollable="backgroundScrollable"
+      :backgroundScrollable="false"
       :backgroundClickable="backgroundClickable"
       :overlayColor="overlayColorSelect"
       ref="myBottomSheet"
