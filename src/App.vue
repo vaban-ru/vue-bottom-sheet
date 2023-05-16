@@ -144,7 +144,7 @@
     </button>
     <vue-bottom-sheet
       :max-width="maxWidth"
-      :max-height="maxHeight"
+      max-height="95dvh"
       :overlay="overlay"
       :click-to-close="clickToClose"
       :effect="effect"

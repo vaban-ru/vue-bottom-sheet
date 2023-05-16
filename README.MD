@@ -1,27 +1,24 @@
 ![Example](https://anyprinter.ru/logo.jpg)
 
-# Vue Bottom Sheet 
-![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
-![Downloads](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
-![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
+# Nuxt Bottom Sheet 
+![Size](https://img.shields.io/bundlephobia/minzip/@antonosipov/vue-bottom-sheet)
+![Downloads](https://img.shields.io/npm/dt/@antonosipov/vue-bottom-sheet)
+![Version](https://img.shields.io/npm/v/@antonosipov/vue-bottom-sheet)
 
-A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [Hammer.js](https://hammerjs.github.io/) for Vue 2 & Vue 3
-
- - :clapper: [Demo](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
- - :open_book: [Docs for Vue 2 version](https://github.com/vaban-ru/vue-bottom-sheet/blob/master/README_VUE2.MD)
+A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [Hammer.js](https://hammerjs.github.io/) for Nuxt 3
 
 ## Installation
 
 ### NPM
 
 ```
-npm install @webzlodimir/vue-bottom-sheet
+npm install @antonosipov/vue-bottom-sheet
 ```
 
 ### Yarn
 
 ```
-yarn add @webzlodimir/vue-bottom-sheet
+yarn add @antonosipov/vue-bottom-sheet
 ```
 
 ## Usage
