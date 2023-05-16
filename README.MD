@@ -1,4 +1,4 @@
-![Example](https://anyprinter.ru/logo.jpg)
+
 
 # Nuxt Bottom Sheet 
 ![Size](https://img.shields.io/bundlephobia/minzip/@antonosipov/vue-bottom-sheet)
