@@ -63,8 +63,8 @@ const close = () => {
 | max-height            | String     | Set max-height of component card                               | `max-height="90%"`              |
 | effect                | String     | Set effect for component card                                  | `effect="fx-fadein-scale"`      |
 | rounded               | Boolean    | Round the top two corners of the sheet                         | `:rounded="false"`              |
-| is-full-screen        | Boolean    | Enable or disable full-screen mode                             | `:is-full-screen="true"`        |
-| swipe-able            | Boolean    | Enable or disable swipe to close                               | `:swipe-able="false"`           |
+| full-screen           | Boolean    | Enable or disable full-screen mode                             | `:is-full-screen="true"`        |
+| swipeable             | Boolean    | Enable or disable swipe to close                               | `:swipe-able="false"`           |
 | overlay-color         | String     | Set overlay color with opacity                                 | `:overlay-color="#0000004D"`    |
 | background-scrollable | Boolean    | Enable scroll                                                  | `:background-scrollable="true"` |
 | background-clickable  | Boolean    | Enable background click, doesn't work if `click-to-close=true` | `:background-clickable="true"`  |
