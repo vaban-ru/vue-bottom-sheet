@@ -185,10 +185,14 @@
           rerum tempore. Ab adipisci beatae, distinctio ea nemo omnis sed
           similique veniam.
         </p>
-        <button type="button" class="btn btn-danger" @click="close">
-          Close
-        </button>
       </div>
+      <template #footer>
+        <div class="sheet-footer">
+          <button type="button" class="btn btn-danger" @click="close">
+            Close
+          </button>
+        </div>
+      </template>
     </vue-bottom-sheet>
   </div>
 </template>
@@ -220,7 +224,8 @@ const close = () => {
 };
 </script>
 <style>
-.sheet-content {
+.sheet-content,
+.sheet-footer {
   padding: 20px;
 }
 </style>

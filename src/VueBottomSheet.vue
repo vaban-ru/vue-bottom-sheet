@@ -38,8 +38,13 @@
         <div ref="pan" class="bottom-sheet__pan">
           <div class="bottom-sheet__bar"></div>
         </div>
-        <div ref="bottomSheetCardContent" class="bottom-sheet__content">
-          <slot></slot>
+        <div ref="bottomSheetCardContent" class="bottom-sheet__body">
+          <div class="bottom-sheet__content">
+            <slot></slot>
+          </div>
+          <div class="bottom-sheet__footer">
+            <slot name="footer" />
+          </div>
         </div>
       </div>
     </div>
@@ -226,9 +231,15 @@ init();
     box-sizing: border-box;
   }
 
-  &__content {
-    overflow-y: scroll;
+  &__body {
     height: v-bind(contentH);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__content {
+    flex-grow: 1;
+    overflow-y: scroll;
   }
 
   &__backdrop {
