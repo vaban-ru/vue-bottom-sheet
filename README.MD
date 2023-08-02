@@ -1,4 +1,4 @@
-![Example](https://anyprinter.ru/logo.jpg)
+![Example](https://bs.vaban.ru/logo.jpg)
 
 # Vue Bottom Sheet 
 ![Size](https://img.shields.io/bundlephobia/minzip/@webzlodimir/vue-bottom-sheet)
@@ -7,7 +7,7 @@
 
 A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [hammer.js](https://hammerjs.github.io/) for Vue 3
 
- - :clapper: [Demo](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
+ - :clapper: [Demo](https://bs.vaban.ru/)
 
 ## Installation
 
