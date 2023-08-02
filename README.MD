@@ -72,3 +72,25 @@ const close = () => {
 | closed        | Fire when card component is closed        | @closed=""            |
 | dragging-up   | Fire while card component dragging up     | @dragging-up=""       |
 | dragging-down | Fire while card component dragging down   | @dragging-down=""     |
+
+## Slots
+
+You can use this named slots:
+
+```vue
+<template>
+  <vue-bottom-sheet ref="myBottomSheet">
+    <template #header>
+      <h1>Lorem Ipsum</h1>
+    </template>
+    <template #default>
+      <h2>What is Lorem Ipsum?</h2>
+    </template>
+    <template #footer>
+      <p>
+        <strong>Lorem Ipsum</strong> is simply dummy text
+      </p>
+    </template>
+  </vue-bottom-sheet>
+</template>
+```
