@@ -1,3 +1,3 @@
-import VueBottomSheet from "@/VueBottomSheet.vue";
+import VueBottomSheet from '@/VueBottomSheet.vue'
 
-export { VueBottomSheet };
+export { VueBottomSheet }

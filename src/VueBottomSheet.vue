@@ -1,373 +1,425 @@
 <template>
   <Teleport to="body">
-    <div
-      ref="bottomSheet"
-      :class="[
-        'bottom-sheet',
-        {
-          opened: opened,
-          closed: opened === false,
-          moving: moving,
-        },
-      ]"
-      :style="{
-        'pointer-events':
-          backgroundClickable && clickToClose === false ? 'none' : 'all',
-      }"
-      @mousedown="clickOnBottomSheet"
-      @touchstart="clickOnBottomSheet"
-    >
-      <div
-        v-if="overlay"
-        class="bottom-sheet__backdrop"
-        :style="{ background: overlayColor }"
-      />
-      <div
-        ref="bottomSheetCard"
-        :style="[
-          { bottom: cardP + 'px', maxWidth: maxWidth, maxHeight: maxHeight },
-          { height: fullScreen ? '100vh' : 'auto' },
-          { 'pointer-events': 'all' },
-        ]"
-        :class="[
-          'bottom-sheet__card',
-          { stripe: stripe, square: !rounded },
-          effect,
-        ]"
-      >
-        <div ref="pan" class="bottom-sheet__pan">
-          <div class="bottom-sheet__bar"></div>
-        </div>
-        <div ref="bottomSheetCardContent" class="bottom-sheet__content">
-          <slot></slot>
-        </div>
+    <div class="bottom-sheet" ref="bottomSheet" :aria-hidden="!showSheet" role="dialog">
+      <transition>
+        <div
+          @click="clickOnOverlayHandler"
+          class="bottom-sheet__overlay"
+          v-show="overlay && showSheet"
+        />
+      </transition>
+      <div ref="bottomSheetContent" :class="sheetContentClasses">
+        <header ref="bottomSheetHeader" class="bottom-sheet__header">
+          <div class="bottom-sheet__draggable-area" ref="bottomSheetDraggableArea">
+            <div class="bottom-sheet__draggable-thumb"></div>
+          </div>
+          <slot name="header" />
+        </header>
+        <main ref="bottomSheetMain" class="bottom-sheet__main">
+          <slot />
+        </main>
+        <footer ref="bottomSheetFooter" class="bottom-sheet__footer">
+          <slot name="footer" />
+        </footer>
       </div>
     </div>
   </Teleport>
 </template>
 
 <script setup lang="ts">
-import Hammer from "hammerjs";
-import { nextTick, onBeforeUnmount, ref } from "vue";
+import { computed, nextTick, ref } from 'vue'
+import Hammer from 'hammerjs'
 
-export interface IProps {
-  overlay?: boolean;
-  maxWidth?: string;
-  maxHeight?: string;
-  clickToClose?: boolean;
-  effect?: string;
-  rounded?: boolean;
-  swipeable?: boolean;
-  fullScreen?: boolean;
-  overlayColor?: string;
-  backgroundScrollable?: boolean;
-  backgroundClickable?: boolean;
+/**
+ * Bottom sheet props interface
+ */
+interface IProps {
+  overlay?: boolean
+  overlayColor?: string
+  maxWidth?: number
+  maxHeight?: number
+  allowFullscreenSwipe?: boolean
+  transitionDuration?: number
+  overlayClickClose?: boolean
 }
 
+/**
+ * Touch event interface
+ */
 interface IEvent {
-  type: string;
-  deltaY: number;
-  isFinal: boolean;
+  type: string
+  deltaY: number
+  isFinal: boolean
+  cancelable: boolean
 }
 
+/**
+ * Bottom sheet props interface
+ */
 const props = withDefaults(defineProps<IProps>(), {
   overlay: true,
-  maxWidth: "640px",
-  maxHeight: "95vh",
-  clickToClose: true,
-  effect: "fx-default",
-  rounded: true,
-  swipeable: true,
-  fullScreen: false,
-  overlayColor: "#0000004D",
-  backgroundScrollable: false,
-  backgroundClickable: false,
-});
+  overlayColor: '#0000004D',
+  maxWidth: 640,
+  transitionDuration: 0.5,
+  allowFullscreenSwipe: false,
+  overlayClickClose: true
+})
 
-const emit = defineEmits(["closed", "opened"]);
+/**
+ * Bottom sheet emit interface
+ */
+const emit = defineEmits(['opened', 'closed', 'dragging-up', 'dragging-down', 'dragged-fullscreen'])
 
-const bottomSheetCardContent = ref();
-const bottomSheetCard = ref();
-const pan = ref();
+/**
+ * Show or hide sheet
+ */
+const showSheet = ref(false)
 
-const opened = ref(false);
-const moving = ref(false);
+/**
+ * Sheet height value
+ */
+const sheetHeight = ref(0)
 
-const contentH = ref("auto");
-const cardP = ref(0);
+/**
+ * Dynamic translate value
+ */
+const translateValue = ref(100)
 
-const hammer: { pan: any; content: any } = {
-  pan: null,
-  content: null,
-};
+/**
+ * Flag to check if sheet is being dragged
+ */
+const isDragging = ref(false)
 
-let inited = false;
-let contentScroll = 0;
-let cardH = 0;
-let stripe = 0;
+/**
+ * Content scrolled value
+ */
+const contentScroll = ref(0)
 
-onBeforeUnmount(() => {
-  hammer.pan?.destroy();
-  hammer.content?.destroy();
-});
+/**
+ * Refs to all sheet HTML elements
+ */
+const bottomSheet = ref<HTMLElement | null>(null)
+const bottomSheetHeader = ref<HTMLElement | null>(null)
+const bottomSheetMain = ref<HTMLElement | null>(null)
+const bottomSheetFooter = ref<HTMLElement | null>(null)
+const bottomSheetContent = ref<HTMLElement | null>(null)
+const bottomSheetDraggableArea = ref<HTMLElement | null>(null)
 
-const isIphone = () => {
-  const iPhone =
-    /iPhone/.test(navigator.userAgent) && !(window as any).MSStream;
-  const aspect = window.screen.width / window.screen.height;
-  return iPhone && aspect.toFixed(3) === "0.462";
-};
+/**
+ * Close bottom sheet when escape key is pressed
+ * @param element
+ */
+const isFocused = (element: HTMLElement) => document.activeElement === element
+window.addEventListener('keyup', (event: KeyboardEvent) => {
+  const isSheetElementFocused =
+    bottomSheet.value!.contains(event.target as HTMLElement) &&
+    isFocused(event.target as HTMLElement)
 
-const init = async () => {
-  await nextTick();
-  contentH.value = "auto";
-  stripe = isIphone() ? 20 : 0;
-  cardH = bottomSheetCard.value.clientHeight;
-  contentH.value = `${cardH - pan.value.clientHeight}px`;
-  bottomSheetCard.value.style.maxHeight = props.maxHeight;
-  cardP.value =
-    props.effect === "fx-slide-from-right" ||
-    props.effect === "fx-slide-from-left"
-      ? 0
-      : -cardH - stripe;
-  if (!inited) {
-    const options: any = {
-      recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]],
-    };
-    hammer.pan = new Hammer(pan.value, options);
-    if (hammer.pan) {
-      hammer.pan.on("panstart panup pandown panend", (e: IEvent) => {
-        move(e, "pan");
-      });
-    }
-    hammer.content = new Hammer(bottomSheetCardContent.value, options);
-    if (hammer.content) {
-      hammer.content.on("panstart panup pandown panend", (e: IEvent) => {
-        move(e, "content");
-      });
-    }
-    inited = true;
+  if (event.key === 'Escape' && !isSheetElementFocused) {
+    close()
   }
-};
+})
 
+/**
+ * Return all classes for bottom sheet content
+ */
+const sheetContentClasses = computed(() => {
+  return [
+    'bottom-sheet__content',
+    {
+      'bottom-sheet__content--fullscreen': sheetHeight.value >= window.innerHeight,
+      'bottom-sheet__content--dragging': isDragging.value
+    }
+  ]
+})
+
+/**
+ * Return transition duration value with seconds
+ */
+const transitionDurationString = computed(() => {
+  return `${props.transitionDuration}s`
+})
+
+/**
+ * Return sheet height string with px
+ */
+const sheetHeightString = computed(() => {
+  return sheetHeight.value && sheetHeight.value > 0 ? `${sheetHeight.value + 1}px` : 'auto'
+})
+
+/**
+ * Return max height string
+ */
+const maxHeightString = computed(() => {
+  return props.maxHeight ? `${props.maxHeight}px` : 'inherit'
+})
+
+/**
+ * Return current translate value string with percents
+ */
+const translateValueString = computed(() => {
+  return `${translateValue.value}%`
+})
+
+/**
+ * Return max width string
+ */
+const maxWidthString = computed(() => {
+  return `${props.maxWidth}px`
+})
+
+/**
+ * Calculate sheet height
+ */
+const initHeight = async () => {
+  await nextTick()
+  sheetHeight.value =
+    bottomSheetHeader.value!.offsetHeight +
+    bottomSheetMain.value!.clientHeight +
+    bottomSheetFooter.value!.offsetHeight
+}
+
+/**
+ * Move sheet while dragging
+ * @param event
+ * @param type
+ */
+
+const dragHandler = (event: IEvent, type: 'area' | 'main') => {
+  isDragging.value = true
+
+  const preventDefault = (e: Event) => {
+    e.preventDefault()
+  }
+
+  if (event.deltaY > 0) {
+    if (type === 'main' && event.type === 'panup') {
+      if (event.cancelable) {
+        bottomSheetMain.value!.addEventListener('touchmove', preventDefault)
+      }
+    }
+
+    if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
+      translateValue.value = pixelToVh(event.deltaY)
+    }
+
+    if (type === 'area') {
+      translateValue.value = pixelToVh(event.deltaY)
+    }
+
+    if (event.type === 'panup') {
+      emit('dragging-up')
+    }
+    if (event.type === 'pandown') {
+      emit('dragging-down')
+    }
+  }
+
+  if (event.isFinal) {
+    bottomSheetMain.value!.removeEventListener('touchmove', preventDefault)
+
+    if (type === 'main') {
+      contentScroll.value = bottomSheetMain.value!.scrollTop
+    }
+    isDragging.value = false
+    if (translateValue.value >= 10) {
+      close()
+    } else {
+      translateValue.value = 0
+    }
+  }
+}
+
+nextTick(() => {
+  /**
+   * Set initial card height
+   */
+  initHeight()
+
+  /**
+   * Create instances of Hammerjs
+   */
+  const hammerAreaInstance = new Hammer(bottomSheetDraggableArea.value, {
+    inputClass: Hammer.TouchMouseInput,
+    recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
+  })
+
+  const hammerMainInstance = new Hammer(bottomSheetMain.value, {
+    inputClass: Hammer.TouchMouseInput,
+    recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]]
+  })
+
+  /**
+   * Set events and handlers to hammerjs instances
+   */
+  hammerAreaInstance.on('panstart panup pandown panend', (e: IEvent) => {
+    dragHandler(e, 'area')
+  })
+
+  hammerMainInstance.on('panstart panup pandown panend', (e: IEvent) => {
+    dragHandler(e, 'main')
+  })
+})
+
+/**
+ * Open bottom sheet method
+ */
 const open = () => {
-  opened.value = true;
-  cardP.value = 0;
-  if (!props.backgroundScrollable) {
-    document.documentElement.style.overflowY = "hidden";
+  translateValue.value = 0
+  document.documentElement.style.overflowY = 'hidden'
+  document.documentElement.style.overscrollBehavior = 'none'
+  showSheet.value = true
+  emit('opened')
+}
+
+/**
+ * Close bottom sheet method
+ */
+const close = async () => {
+  showSheet.value = false
+  translateValue.value = 100
+  setTimeout(() => {
+    document.documentElement.style.overflowY = 'auto'
+    document.documentElement.style.overscrollBehavior = ''
+    emit('closed')
+  }, props.transitionDuration * 1000)
+}
+
+/**
+ * Click on overlay handler
+ */
+const clickOnOverlayHandler = () => {
+  if (props.overlayClickClose) {
+    close()
   }
-  emit("opened");
-};
+}
 
-const move = (event: IEvent, type: string) => {
-  if (props.swipeable) {
-    const delta = -event.deltaY;
-    if (
-      (type === "content" && event.type === "panup") ||
-      (type === "content" && event.type === "pandown" && contentScroll > 0)
-    ) {
-      bottomSheetCardContent.value.scrollTop = contentScroll + delta;
-    } else if (event.type === "panup" || event.type === "pandown") {
-      moving.value = true;
-      if (event.deltaY > 0) {
-        cardP.value = delta;
-      }
-    }
-    if (event.isFinal) {
-      contentScroll = bottomSheetCardContent.value.scrollTop;
-      moving.value = false;
-      if (cardP.value < -30) {
-        opened.value = false;
-        cardP.value = -cardH - stripe;
-        document.documentElement.style.overflowY = "";
-        emit("closed");
-      } else {
-        cardP.value = 0;
-      }
-    }
-  }
-};
+/**
+ * Convert pixels to vh
+ * @param pixel
+ */
+const pixelToVh = (pixel: number) => {
+  const height = props.maxHeight ? props.maxHeight : sheetHeight.value
+  return (pixel / height) * 100
+}
 
-const close = () => {
-  opened.value = false;
-  cardP.value =
-    props.effect === "fx-slide-from-right" ||
-    props.effect === "fx-slide-from-left"
-      ? 0
-      : -cardH - stripe;
-  document.documentElement.style.overflowY = "";
-  emit("closed");
-};
-
-const clickOnBottomSheet = (event: Event) => {
-  if (props.clickToClose) {
-    const target = event.target as Element;
-    if (
-      target.classList.contains("bottom-sheet__backdrop") ||
-      target.classList.contains("bottom-sheet")
-    ) {
-      close();
-    }
-  }
-};
-
-defineExpose({ open, close });
-
-init();
+/**
+ * Define public methods
+ */
+defineExpose({ open, close })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bottom-sheet {
   z-index: 99999;
-  transition: all 0.4s ease;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: visibility v-bind('transitionDurationString');
 
   * {
     box-sizing: border-box;
   }
 
-  &__content {
-    overflow-y: scroll;
-    height: v-bind(contentH);
+  &[aria-hidden='false'] {
+    visibility: visible;
   }
 
-  &__backdrop {
-    position: fixed;
+  &[aria-hidden='true'] {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &__overlay {
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9999;
-    opacity: 0;
-    visibility: hidden;
+    z-index: -1;
+    background: v-bind('props.overlayColor');
   }
 
-  &__card {
-    width: 100%;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px 16px 0 0;
+    background: #ffffff;
+    overflow-y: hidden;
+    transform: translate3d(0, v-bind('translateValueString'), 0);
+    height: v-bind('sheetHeightString');
+    max-width: v-bind('maxWidthString');
+    max-height: v-bind('maxHeightString');
+    box-sizing: border-box;
     pointer-events: all;
-    position: fixed;
-    background: white;
-    border-radius: 14px 14px 0 0;
-    left: 50%;
-    z-index: 9999;
-    margin: 0 auto;
 
-    &.square {
+    &--fullscreen {
       border-radius: 0;
     }
 
-    &.stripe {
-      padding-bottom: 20px;
-    }
-
-    &.fx-default {
-      transform: translate(-50%, 0);
-      transition: bottom 0.3s ease;
-    }
-
-    &.fx-fadein-scale {
-      transform: translate(-50%, 0) scale(0.7);
-      opacity: 0;
-      transition: all 0.3s;
-    }
-
-    &.fx-slide-from-right {
-      transform: translate(100%, 0);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
-    }
-
-    &.fx-slide-from-left {
-      transform: translate(-100%, 0);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.25, 0.5, 0.5, 0.9);
+    &:not(.bottom-sheet__content--dragging) {
+      transition: v-bind('transitionDurationString') ease;
     }
   }
 
-  &__pan {
-    padding-bottom: 20px;
-    padding-top: 15px;
-    height: 38px;
-  }
-
-  &__bar {
-    display: block;
-    width: 50px;
-    height: 3px;
-    border-radius: 14px;
-    margin: 0 auto;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.3);
-  }
-
-  &.closed {
-    opacity: 0;
-    visibility: hidden;
-
-    .bottom-sheet__backdrop {
-      animation: hide 0.3s ease;
-    }
-  }
-
-  &.moving {
-    .bottom-sheet__card {
-      transition: none;
-    }
-  }
-
-  &.opened {
-    position: fixed;
-    top: 0;
-    left: 0;
+  &__draggable-area {
     width: 100%;
-    height: 100%;
+    margin: auto;
+    padding: 16px;
+    cursor: grab;
+  }
 
-    .bottom-sheet__backdrop {
-      animation: show 0.3s ease;
-      opacity: 1;
-      visibility: visible;
+  &__draggable-thumb {
+    width: 40px;
+    height: 4px;
+    background: #333333;
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    touch-action: auto !important;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
     }
-
-    .bottom-sheet__card {
-      &.fx-fadein-scale {
-        transform: translate(-50%, 0) scale(1);
-        opacity: 1;
-      }
-
-      &.fx-slide-from-right {
-        transform: translate(-50%, 0);
-        opacity: 1;
-      }
-
-      &.fx-slide-from-left {
-        transform: translate(-50%, 0);
-        opacity: 1;
-      }
+    &::-webkit-scrollbar-corner {
+      display: none;
     }
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0);
+    }
+  }
+
+  &__footer:empty {
+    display: none;
   }
 }
 
-@keyframes show {
-  0% {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  100% {
-    opacity: 1;
-    visibility: visible;
-  }
+.v-enter-active,
+.v-leave-active {
+  transition: opacity v-bind('transitionDurationString') ease;
 }
 
-@keyframes hide {
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
