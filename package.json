@@ -1,12 +1,11 @@
 {
-  "name": "@vaban/vue-bottom-sheet",
+  "name": "@webzlodimir/vue-bottom-sheet",
   "version": "3.0.0",
   "private": false,
   "scripts": {
-    "dev": "vite",
-    "preview": "vite --config vite-demo.config.ts serve --host 0.0.0.0",
+    "dev": "vite --config vite-demo.config.ts serve --host 0.0.0.0",
     "build-lib": "rimraf dist &&  vite build",
-    "deploy": "rimraf dist && vue-tsc && vite build && npm publish --access=public",
+    "deploy": "rimraf dist && vite build && npm publish --access=public",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
@@ -26,7 +25,6 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
-    "rollup-plugin-typescript2": "^0.34.1",
     "sass": "^1.64.1",
     "typescript": "~5.1.6",
     "vite": "^4.4.6",

@@ -5,10 +5,9 @@
 ![Downloads](https://img.shields.io/npm/dt/@webzlodimir/vue-bottom-sheet)
 ![Version](https://img.shields.io/npm/v/@webzlodimir/vue-bottom-sheet)
 
-A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [Hammer.js](https://hammerjs.github.io/) for Vue 2 & Vue 3
+A nice clean and touch-friendly bottom sheet component based on [Vue.js](https://vuejs.org/) and [hammer.js](https://hammerjs.github.io/) for Vue 3
 
  - :clapper: [Demo](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
- - :open_book: [Docs for Vue 2 version](https://github.com/vaban-ru/vue-bottom-sheet/blob/master/README_VUE2.MD)
 
 ## Installation
 
@@ -38,7 +37,7 @@ yarn add @webzlodimir/vue-bottom-sheet
 </template>
 
 <script setup>
-import { VueBottomSheet } from "@webzlodimir/vue-bottom-sheet";
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import  "@webzlodimir/vue-bottom-sheet/dist/style.css";
 import { ref } from "vue";
 
@@ -55,32 +54,21 @@ const close = () => {
 ```
 ## Props
 
-| Prop                  | Type       | Description                                                    | Example                         |
-|-----------------------|------------|----------------------------------------------------------------|---------------------------------|
-| overlay               | Boolean    | Remove back overlay                                            |  `:overlay="false"`             |
-| click-to-close        | Boolean    | Click outside card to close                                    | `:click-to-close="false"`       |
-| max-width             | String     | Set max-width of component card                                | `max-width="640px"`             |
-| max-height            | String     | Set max-height of component card                               | `max-height="90%"`              |
-| effect                | String     | Set effect for component card                                  | `effect="fx-fadein-scale"`      |
-| rounded               | Boolean    | Round the top two corners of the sheet                         | `:rounded="false"`              |
-| full-screen           | Boolean    | Enable or disable full-screen mode                             | `:full-screen="true"`           |
-| swipeable             | Boolean    | Enable or disable swipe to close                               | `:swipeable="false"`            |
-| overlay-color         | String     | Set overlay color with opacity                                 | `:overlay-color="#0000004D"`    |
-| background-scrollable | Boolean    | Enable scroll                                                  | `:background-scrollable="true"` |
-| background-clickable  | Boolean    | Enable background click, doesn't work if `click-to-close=true` | `:background-clickable="true"`  |
+| Prop                | Type    | Description                                                                           | Example                        | Defaults  |
+|---------------------|---------|---------------------------------------------------------------------------------------|--------------------------------|-----------|
+| max-width           | Number  | Set max-width of component card in px                                                 | `:max-width="640"`             | 640       |
+| max-height          | Number  | Sets the maximum height of the window, if not set it takes the height of the content  | `:max-height="90"`             | -         |
+| can-swipe           | Boolean | Enable or disable swipe to close                                                      | `:can-swipe="false"`           | true      |
+| overlay             | Boolean | Enable overlay                                                                        | `:overlay="false"`             | true      |
+| overlay-color       | String  | Set overlay color with opacity                                                        | `overlay-color="#0000004D"`    | #0000004D |
+| overlay-click-close | String  | Close window on overlay click                                                         | `:overlay-click-close="false"` | true      |
+| transition-duration | Number  | Transition animation duration                                                         | `:transition-duration="0.5"`   | 0.5       |
 
 ## Events
 
-| Event    | Description                          | Example      |
-|----------|--------------------------------------|--------------|
-| opened   | Fire when card component is opened   | @opened=""   |
-| closed   | Fire when card component is closed   | @closed=""   |
-
-### List of effects
-
-- fx-default
-- fx-fadein-scale
-- fx-slide-from-right
-- fx-slide-from-left
-
-You can see all the effects on the [demo page](https://vaban-ru.github.io/vue-bottom-sheet-demo/)
+| Event         | Description                               | Example               |
+|---------------|-------------------------------------------|-----------------------|
+| opened        | Fire when card component is opened        | @opened=""            |
+| closed        | Fire when card component is closed        | @closed=""            |
+| dragging-up   | Fire while card component dragging up     | @dragging-up=""       |
+| dragging-down | Fire while card component dragging down   | @dragging-down=""     |

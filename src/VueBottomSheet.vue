@@ -38,9 +38,9 @@ interface IProps {
   overlayColor?: string
   maxWidth?: number
   maxHeight?: number
-  allowFullscreenSwipe?: boolean
   transitionDuration?: number
   overlayClickClose?: boolean
+  canSwipe?: boolean
 }
 
 /**
@@ -61,14 +61,14 @@ const props = withDefaults(defineProps<IProps>(), {
   overlayColor: '#0000004D',
   maxWidth: 640,
   transitionDuration: 0.5,
-  allowFullscreenSwipe: false,
-  overlayClickClose: true
+  overlayClickClose: true,
+  canSwipe: true
 })
 
 /**
  * Bottom sheet emit interface
  */
-const emit = defineEmits(['opened', 'closed', 'dragging-up', 'dragging-down', 'dragged-fullscreen'])
+const emit = defineEmits(['opened', 'closed', 'dragging-up', 'dragging-down'])
 
 /**
  * Show or hide sheet
@@ -186,46 +186,48 @@ const initHeight = async () => {
  */
 
 const dragHandler = (event: IEvent, type: 'area' | 'main') => {
-  isDragging.value = true
+  if (props.canSwipe) {
+    isDragging.value = true
 
-  const preventDefault = (e: Event) => {
-    e.preventDefault()
-  }
+    const preventDefault = (e: Event) => {
+      e.preventDefault()
+    }
 
-  if (event.deltaY > 0) {
-    if (type === 'main' && event.type === 'panup') {
-      if (event.cancelable) {
-        bottomSheetMain.value!.addEventListener('touchmove', preventDefault)
+    if (event.deltaY > 0) {
+      if (type === 'main' && event.type === 'panup') {
+        if (event.cancelable) {
+          bottomSheetMain.value!.addEventListener('touchmove', preventDefault)
+        }
+      }
+
+      if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
+        translateValue.value = pixelToVh(event.deltaY)
+      }
+
+      if (type === 'area') {
+        translateValue.value = pixelToVh(event.deltaY)
+      }
+
+      if (event.type === 'panup') {
+        emit('dragging-up')
+      }
+      if (event.type === 'pandown') {
+        emit('dragging-down')
       }
     }
 
-    if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
-      translateValue.value = pixelToVh(event.deltaY)
-    }
+    if (event.isFinal) {
+      bottomSheetMain.value!.removeEventListener('touchmove', preventDefault)
 
-    if (type === 'area') {
-      translateValue.value = pixelToVh(event.deltaY)
-    }
-
-    if (event.type === 'panup') {
-      emit('dragging-up')
-    }
-    if (event.type === 'pandown') {
-      emit('dragging-down')
-    }
-  }
-
-  if (event.isFinal) {
-    bottomSheetMain.value!.removeEventListener('touchmove', preventDefault)
-
-    if (type === 'main') {
-      contentScroll.value = bottomSheetMain.value!.scrollTop
-    }
-    isDragging.value = false
-    if (translateValue.value >= 10) {
-      close()
-    } else {
-      translateValue.value = 0
+      if (type === 'main') {
+        contentScroll.value = bottomSheetMain.value!.scrollTop
+      }
+      isDragging.value = false
+      if (translateValue.value >= 10) {
+        close()
+      } else {
+        translateValue.value = 0
+      }
     }
   }
 }
@@ -299,7 +301,8 @@ const clickOnOverlayHandler = () => {
  * @param pixel
  */
 const pixelToVh = (pixel: number) => {
-  const height = props.maxHeight ? props.maxHeight : sheetHeight.value
+  const height =
+    props.maxHeight && props.maxHeight <= sheetHeight.value ? props.maxHeight : sheetHeight.value
   return (pixel / height) * 100
 }
 
