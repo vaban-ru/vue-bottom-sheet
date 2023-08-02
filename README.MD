@@ -61,7 +61,7 @@ const close = () => {
 | can-swipe           | Boolean | Enable or disable swipe to close                                                      | `:can-swipe="false"`           | true      |
 | overlay             | Boolean | Enable overlay                                                                        | `:overlay="false"`             | true      |
 | overlay-color       | String  | Set overlay color with opacity                                                        | `overlay-color="#0000004D"`    | #0000004D |
-| overlay-click-close | String  | Close window on overlay click                                                         | `:overlay-click-close="false"` | true      |
+| overlay-click-close | Boolean | Close window on overlay click                                                         | `:overlay-click-close="false"` | true      |
 | transition-duration | Number  | Transition animation duration                                                         | `:transition-duration="0.5"`   | 0.5       |
 
 ## Events
