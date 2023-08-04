@@ -72,7 +72,7 @@ import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import  "@webzlodimir/vue-bottom-sheet/dist/style.css";
 import { ref } from "vue";
 
-const myBottomSheet = ref<typeof VueBottomSheet>()
+const myBottomSheet = ref<InstanceType<typeof VueBottomSheet>>()
 
 const open = () => {
   myBottomSheet.value.open();
