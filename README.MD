@@ -53,6 +53,25 @@ const close = () => {
 }
 </script>
 ```
+
+## Usage in Nuxt 3
+
+For Nuxt 3, just wrap component in `<client-only>`
+
+```vue
+<template>
+  <client-only>
+    <vue-bottom-sheet ref="myBottomSheet">
+      <h1>Lorem Ipsum</h1>
+      <h2>What is Lorem Ipsum?</h2>
+      <p>
+        <strong>Lorem Ipsum</strong> is simply dummy text
+      </p>
+    </vue-bottom-sheet>
+  </client-only>
+</template>
+```
+
 ## Props
 
 | Prop                | Type    | Description                                                                           | Example                        | Defaults  |
