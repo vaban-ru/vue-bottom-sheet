@@ -54,6 +54,36 @@ const close = () => {
 </script>
 ```
 
+## Usage `setup` + TS
+
+```vue
+<template>
+  <vue-bottom-sheet ref="myBottomSheet">
+    <h1>Lorem Ipsum</h1>
+    <h2>What is Lorem Ipsum?</h2>
+    <p>
+      <strong>Lorem Ipsum</strong> is simply dummy text
+    </p>
+  </vue-bottom-sheet>
+</template>
+
+<script setup lang="ts">
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import  "@webzlodimir/vue-bottom-sheet/dist/style.css";
+import { ref } from "vue";
+
+const myBottomSheet = ref<typeof VueBottomSheet>()
+
+const open = () => {
+  myBottomSheet.value.open();
+}
+
+const close = () => {
+  myBottomSheet.value.close();
+}
+</script>
+```
+
 ## Usage in Nuxt 3
 
 For Nuxt 3, just wrap component in `<client-only>`
