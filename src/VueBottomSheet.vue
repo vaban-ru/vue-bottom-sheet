@@ -195,16 +195,13 @@ const dragHandler = (event: IEvent, type: 'area' | 'main') => {
 
     if (event.deltaY > 0) {
       if (type === 'main' && event.type === 'panup') {
+        translateValue.value = pixelToVh(event.deltaY)
         if (event.cancelable) {
           bottomSheetMain.value!.addEventListener('touchmove', preventDefault)
         }
       }
 
-      if (
-        type === 'main' &&
-        (event.type === 'pandown' || event.type === 'panup') &&
-        contentScroll.value === 0
-      ) {
+      if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
         translateValue.value = pixelToVh(event.deltaY)
       }
 
