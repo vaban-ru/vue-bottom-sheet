@@ -200,7 +200,11 @@ const dragHandler = (event: IEvent, type: 'area' | 'main') => {
         }
       }
 
-      if (type === 'main' && event.type === 'pandown' && contentScroll.value === 0) {
+      if (
+        type === 'main' &&
+        (event.type === 'pandown' || event.type === 'panup') &&
+        contentScroll.value === 0
+      ) {
         translateValue.value = pixelToVh(event.deltaY)
       }
 
