@@ -1,6 +1,6 @@
 {
   "name": "@webzlodimir/vue-bottom-sheet",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "private": false,
   "scripts": {
     "dev": "vite --config vite-demo.config.ts serve --host 0.0.0.0",
@@ -40,9 +40,9 @@
   ],
   "main": "dist/vue-bottom-sheet.umd.js",
   "module": "dist/vue-bottom-sheet.es.js",
+  "types": "./dist/VueBottomSheet.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/VueBottomSheet.d.ts",
       "import": "./dist/vue-bottom-sheet.es.js",
       "require": "./dist/vue-bottom-sheet.umd.js"
     },
