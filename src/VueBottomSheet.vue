@@ -36,6 +36,7 @@ import Hammer from 'hammerjs'
 interface IProps {
   overlay?: boolean
   overlayColor?: string
+  contentColor?: string
   maxWidth?: number
   maxHeight?: number
   transitionDuration?: number
@@ -59,6 +60,7 @@ interface IEvent {
 const props = withDefaults(defineProps<IProps>(), {
   overlay: true,
   overlayColor: '#0000004D',
+  contentCOlor: '#ffffff',
   maxWidth: 640,
   transitionDuration: 0.5,
   overlayClickClose: true,
@@ -355,7 +357,7 @@ defineExpose({ open, close })
     display: flex;
     flex-direction: column;
     border-radius: 16px 16px 0 0;
-    background: #ffffff;
+    background: v-bind('props.contentColor');
     overflow-y: hidden;
     transform: translate3d(0, v-bind('translateValueString'), 0);
     height: v-bind('sheetHeightString');
