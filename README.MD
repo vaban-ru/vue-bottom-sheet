@@ -112,7 +112,9 @@ For Nuxt 3, just wrap component in `<client-only>`
 | overlay             | Boolean | Enable overlay                                                                        | `:overlay="false"`             | true      |
 | overlay-color       | String  | Set overlay color with opacity                                                        | `overlay-color="#0000004D"`    | #0000004D |
 | overlay-click-close | Boolean | Close window on overlay click                                                         | `:overlay-click-close="false"` | true      |
-| transition-duration | Number  | Transition animation duration                                                         | `:transition-duration="0.5"`   | 0.5       |
+| transition-duration | Number  | Transition animation duration                                                         | `:transition-duration="0.5"`   | 0.5       |                                                                            
+| hide-drag-handle | Boolean  | Hide Drag Handle                                                                        | `:hide-drag-handle="false"`   | false       |
+| roundness       | String  | Set the border-radius of the top part                                                       | `roundness="16px"`    | 16px |                                                                        
 
 ## Events
 
@@ -130,6 +132,9 @@ You can use this named slots:
 ```vue
 <template>
   <vue-bottom-sheet ref="myBottomSheet">
+    <template #drag-handle>
+      <div>Drag Here</div>
+    </template>
     <template #header>
       <h1>Lorem Ipsum</h1>
     </template>

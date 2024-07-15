@@ -8,10 +8,14 @@
           v-show="overlay && showSheet"
         />
       </transition>
-      <div ref="bottomSheetContent" :class="sheetContentClasses">
+      <div ref="bottomSheetContent" :class="sheetContentClasses" :style="`border-radius: ${roundness} ${roundness} 0 0`">
         <header ref="bottomSheetHeader" class="bottom-sheet__header">
-          <div class="bottom-sheet__draggable-area" ref="bottomSheetDraggableArea">
-            <div class="bottom-sheet__draggable-thumb"></div>
+          <div  ref="bottomSheetDraggableArea" class="bottom-sheet__draggable-area">
+            <slot name="drag-handle" v-if="!hideDragHandle" >
+              <div class="bottom-sheet__default-draggable-area">
+                <div class="bottom-sheet__draggable-thumb"></div>
+              </div>
+            </slot>
           </div>
           <slot name="header" />
         </header>
@@ -41,6 +45,8 @@ interface IProps {
   transitionDuration?: number
   overlayClickClose?: boolean
   canSwipe?: boolean
+  hideDragHandle: boolean
+  roundness: string
 }
 
 /**
@@ -62,7 +68,9 @@ const props = withDefaults(defineProps<IProps>(), {
   maxWidth: 640,
   transitionDuration: 0.5,
   overlayClickClose: true,
-  canSwipe: true
+  canSwipe: true,
+  hideDragHandle: false,
+  roundness: "16px",
 })
 
 /**
@@ -354,7 +362,6 @@ defineExpose({ open, close })
   &__content {
     display: flex;
     flex-direction: column;
-    border-radius: 16px 16px 0 0;
     background: #ffffff;
     overflow-y: hidden;
     transform: translate3d(0, v-bind('translateValueString'), 0);
@@ -377,8 +384,12 @@ defineExpose({ open, close })
   &__draggable-area {
     width: 100%;
     margin: auto;
-    padding: 16px;
+    
     cursor: grab;
+  }
+
+  &__default-draggable-area {
+    padding: 16px;
   }
 
   &__draggable-thumb {
